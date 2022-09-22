@@ -1,4 +1,4 @@
-package com.br.healthCare.registrationService.domain;
+package com.br.healthCare.registrationService.domain.commands;
 
 public interface RegistrationCommand {
 }
