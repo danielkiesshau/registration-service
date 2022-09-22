@@ -4,10 +4,11 @@ import com.br.healthCare.registrationService.data.MedicalHistory;
 
 
 public class MedicalHistoryDao implements RegistrationDAO{
+    private final MedicalHistory medicalHistory;
 
-    private MedicalHistory medicalHistory;
-
-    public MedicalHistoryDao(){}
+    public MedicalHistoryDao(MedicalHistory medicalHistory){
+        this.medicalHistory = medicalHistory;
+    }
 
     @Override
     public void insertData(){}
@@ -20,13 +21,5 @@ public class MedicalHistoryDao implements RegistrationDAO{
 
     @Override
     public void deleteData(){}
-
-    public MedicalHistory getMedicalHistory() {
-        return medicalHistory;
-    }
-
-    public void setMedicalHistory(MedicalHistory medicalHistory) {
-        this.medicalHistory = medicalHistory;
-    }
 
 }
