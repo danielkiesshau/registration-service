@@ -1,6 +1,13 @@
 package com.br.healthCare.registrationService.data.pacientData;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 public class PatientAddress {
+    private Integer id;
+
     private String locationName;
     private int zipCode;
     private String houseNumber;

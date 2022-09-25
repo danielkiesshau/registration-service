@@ -1,8 +1,14 @@
 package com.br.healthCare.registrationService.data;
 
-import com.br.healthCare.registrationService.data.pacientData.PatientAddress;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
 public class Patient {
+
+    private Integer id;
     private String name;
     private String genre;
     private int age;
@@ -10,107 +16,96 @@ public class Patient {
     private int cpf;
     private String phoneNumber;
     private String email;
-    private int healtInsuranceNumber;
+    private int healthInsuranceNumber;
     private String fatherName;
     private String motherName;
-    private PatientAddress address;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
     }
 
-    public Patient setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
     }
 
     public String getGenre() {
         return genre;
     }
 
-    public Patient setGenre(String genre) {
+    public void setGenre(String genre) {
         this.genre = genre;
-        return this;
     }
 
     public int getAge() {
         return age;
     }
 
-    public Patient setAge(int age) {
+    public void setAge(int age) {
         this.age = age;
-        return this;
     }
 
     public String getWeight() {
         return weight;
     }
 
-    public Patient setWeight(String weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
-        return this;
     }
 
     public int getCpf() {
         return cpf;
     }
 
-    public Patient setCpf(int cpf) {
+    public void setCpf(int cpf) {
         this.cpf = cpf;
-        return this;
     }
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public Patient setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-        return this;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public Patient setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
-        return this;
     }
 
-    public int getHealtInsuranceNumber() {
-        return healtInsuranceNumber;
+    public int getHealthInsuranceNumber() {
+        return healthInsuranceNumber;
     }
 
-    public Patient setHealtInsuranceNumber(int healtInsuranceNumber) {
-        this.healtInsuranceNumber = healtInsuranceNumber;
-        return this;
+    public void setHealthInsuranceNumber(int healthInsuranceNumber) {
+        this.healthInsuranceNumber = healthInsuranceNumber;
     }
 
     public String getFatherName() {
         return fatherName;
     }
 
-    public Patient setFatherName(String fatherName) {
+    public void setFatherName(String fatherName) {
         this.fatherName = fatherName;
-        return this;
     }
 
     public String getMotherName() {
         return motherName;
     }
 
-    public Patient setMotherName(String motherName) {
+    public void setMotherName(String motherName) {
         this.motherName = motherName;
-        return this;
-    }
-
-    public PatientAddress getAddress() {
-        return address;
-    }
-
-    public Patient setAddress(PatientAddress address) {
-        this.address = address;
-        return this;
     }
 }
