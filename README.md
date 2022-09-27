@@ -16,18 +16,22 @@ CRUD application to manage patient and medical history.
 ### 3. Test the rest API with your preferred method
 `curl localhost:8080/<endpoint>`
 
-### Useful commands
+## Useful commands
+
+### --- Docker commands ---
 ```
 docker exec -it db-registration-service-7 bash   ## connects to mysql container's bash
 ```
 ```
 docker logs db-registration-service-7 --follow   ## logs from mysql container
 ```
+
+### --- Bash commands ---
 ```
 mysql -u root -p     ## execute mysql CLI do be able to run SQL Queries
 ```
 
-## --- Comandos CLI SQL ---
+### --- MySQL commands ---
 ```
 USE DATABASE db_registration_service;
 ```
