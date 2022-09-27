@@ -1,13 +1,14 @@
 package com.br.healthCare.registrationService.data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.br.healthCare.registrationService.data.pacientData.PatientAddress;
+
+import javax.persistence.*;
 
 @Entity
 public class Patient {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
     private String genre;
@@ -19,8 +20,22 @@ public class Patient {
     private int healthInsuranceNumber;
     private String fatherName;
     private String motherName;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
+    @OneToOne
+    @JoinColumn(name = "address_id",
+            foreignKey = @ForeignKey(name = "id")
+    )
+    private PatientAddress address;
+
+    public PatientAddress getAddress() {
+        return address;
+    }
+
+    public Patient setAddress(PatientAddress address) {
+        this.address = address;
+        return this;
+    }
+
     public Integer getId() {
         return id;
     }
