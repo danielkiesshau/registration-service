@@ -1,9 +1,11 @@
 package com.br.healthCare.registrationService.infra;
 
-public interface RegistrationDAO {
+import java.util.List;
+
+public interface RegistrationDAO<T> {
 
     void insertData();
-    void getData();
+    List<T> getData();
     void updateData();
     void deleteData();
 }
