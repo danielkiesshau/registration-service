@@ -1,6 +1,7 @@
-package com.br.healthCare.registrationService.infra;
+package com.br.healthCare.registrationService.infra.medicalHistoryDatabase;
 
 import com.br.healthCare.registrationService.data.MedicalHistory;
+import com.br.healthCare.registrationService.infra.RegistrationDAO;
 
 import java.util.List;
 

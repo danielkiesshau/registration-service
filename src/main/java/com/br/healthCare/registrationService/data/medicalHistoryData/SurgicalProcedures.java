@@ -1,8 +1,16 @@
 package com.br.healthCare.registrationService.data.medicalHistoryData;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
+@Entity
 public class SurgicalProcedures {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     private String procedureName;
     private String complications;
     private Date date;

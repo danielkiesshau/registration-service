@@ -4,10 +4,16 @@ import com.br.healthCare.registrationService.data.medicalHistoryData.ContinuousU
 import com.br.healthCare.registrationService.data.medicalHistoryData.RelativesDiseases;
 import com.br.healthCare.registrationService.data.medicalHistoryData.SurgicalProcedures;
 
+import javax.persistence.*;
 import java.util.List;
-
+@Entity
 public class MedicalHistory {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+   private Integer id;
+    @ElementCollection
     private List<String> existingDiseases;
+    @ElementCollection
     private List<String> limitations;
     private String bloodType;
     private SurgicalProcedures surgicalProcedures;
@@ -16,85 +22,103 @@ public class MedicalHistory {
     private boolean isSmoker;
     private boolean isPregnant;
     private RelativesDiseases relativesDiseases;
+    @OneToOne
+    @JoinColumn(name = "patient_id", foreignKey = @ForeignKey(name = "id"))
+    private Patient patientId;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public MedicalHistory setId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
+    public int getPatientId() {
+        return patientId.getId();
+    }
+
+    public void setPatientId(Patient patient) {
+        this.patientId = patientId;
+    }
 
     public List<String> getExistingDiseases() {
         return existingDiseases;
     }
 
-    public MedicalHistory setExistingDiseases(List<String> existingDiseases) {
+    public void setExistingDiseases(List<String> existingDiseases) {
         this.existingDiseases = existingDiseases;
-        return this;
     }
 
     public List<String> getLimitations() {
         return limitations;
     }
 
-    public MedicalHistory setLimitations(List<String> limitations) {
+    public void setLimitations(List<String> limitations) {
         this.limitations = limitations;
-        return this;
     }
 
     public String getBloodType() {
         return bloodType;
     }
 
-    public MedicalHistory setBloodType(String bloodType) {
+    public void setBloodType(String bloodType) {
         this.bloodType = bloodType;
-        return this;
     }
 
+    @OneToOne
+    @JoinColumn(name="surgicalProcedures_id", nullable = false)
     public SurgicalProcedures getSurgicalProcedures() {
         return surgicalProcedures;
     }
 
-    public MedicalHistory setSurgicalProcedures(SurgicalProcedures surgicalProcedures) {
+    public void setSurgicalProcedures(SurgicalProcedures surgicalProcedures) {
         this.surgicalProcedures = surgicalProcedures;
-        return this;
     }
 
+    @OneToOne
+    @JoinColumn(name="continuousUseMedications_id", nullable = false)
     public ContinuousUseMedications getContinuousUseMedications() {
         return continuousUseMedications;
     }
 
-    public MedicalHistory setContinuousUseMedications(ContinuousUseMedications continuousUseMedications) {
+    public void setContinuousUseMedications(ContinuousUseMedications continuousUseMedications) {
         this.continuousUseMedications = continuousUseMedications;
-        return this;
     }
 
     public String getAllergies() {
         return allergies;
     }
 
-    public MedicalHistory setAllergies(String allergies) {
+    public void setAllergies(String allergies) {
         this.allergies = allergies;
-        return this;
     }
 
     public boolean isSmoker() {
         return isSmoker;
     }
 
-    public MedicalHistory setSmoker(boolean smoker) {
+    public void setSmoker(boolean smoker) {
         isSmoker = smoker;
-        return this;
     }
 
     public boolean isPregnant() {
         return isPregnant;
     }
 
-    public MedicalHistory setPregnant(boolean pregnant) {
+    public void setPregnant(boolean pregnant) {
         isPregnant = pregnant;
-        return this;
     }
 
+    @OneToOne
+    @JoinColumn(name="relativesDiseases_id", nullable = false)
     public RelativesDiseases getRelativesDiseases() {
         return relativesDiseases;
     }
 
-    public MedicalHistory setRelativesDiseases(RelativesDiseases relativesDiseases) {
+
+    public void setRelativesDiseases(RelativesDiseases relativesDiseases) {
         this.relativesDiseases = relativesDiseases;
-        return this;
     }
 }
