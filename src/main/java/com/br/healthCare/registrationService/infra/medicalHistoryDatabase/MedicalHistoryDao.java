@@ -2,29 +2,41 @@ package com.br.healthCare.registrationService.infra.medicalHistoryDatabase;
 
 import com.br.healthCare.registrationService.data.MedicalHistory;
 import com.br.healthCare.registrationService.infra.RegistrationDAO;
+import com.br.healthCare.registrationService.infra.helpers.IterableHelper;
+import com.br.healthCare.registrationService.infra.medicalHistoryDatabase.Repositories.MedicalHistoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
+@Service
 public class MedicalHistoryDao implements RegistrationDAO<MedicalHistory> {
-    private final MedicalHistory medicalHistory;
+    private MedicalHistory medicalHistory;
+    @Autowired
+    private MedicalHistoryRepository medicalHistoryRepository;
 
-    public MedicalHistoryDao(MedicalHistory medicalHistory){
-        this.medicalHistory = medicalHistory;
+    @Override
+    public void insertData(){
+        medicalHistoryRepository.save(medicalHistory);
     }
 
     @Override
-    public void insertData(){}
-
-    @Override
-    public void updateData(){}
+    public void updateData(){
+        medicalHistoryRepository.save(medicalHistory);
+    }
 
     @Override
     public List<MedicalHistory> getData(){
-        return null;
-    }
+        Iterable<MedicalHistory> iterable = medicalHistoryRepository.findAll();
+        return new IterableHelper().toList(iterable);    }
 
     @Override
-    public void deleteData(){}
+    public void deleteData(){
+        medicalHistoryRepository.save(medicalHistory);
+    }
 
+    public List<MedicalHistory> findByPatientId() {
+        List<MedicalHistory> result = medicalHistoryRepository.findByPatientId(medicalHistory.getPatientId());
+        return result;
+    }
 }

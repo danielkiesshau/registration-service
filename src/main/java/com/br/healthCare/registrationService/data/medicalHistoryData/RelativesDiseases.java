@@ -1,9 +1,8 @@
 package com.br.healthCare.registrationService.data.medicalHistoryData;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.br.healthCare.registrationService.data.MedicalHistory;
+
+import javax.persistence.*;
 
 @Entity
 public class RelativesDiseases {
@@ -13,13 +12,39 @@ public class RelativesDiseases {
     private Integer id;
     private String kinshipDegree;
     private String diseaseName;
+    @OneToOne
+    @JoinColumn(name = "meicalHistory_id", foreignKey = @ForeignKey(name = "id"))
+    private MedicalHistory medicalHistoryId;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getDiseaseName() {
+        return diseaseName;
+    }
+
+    public void setDiseaseName(String diseaseName) {
+        this.diseaseName = diseaseName;
+    }
+
+    public MedicalHistory getMedicalHistoryId() {
+        return medicalHistoryId;
+    }
+
+    public void setMedicalHistoryId(MedicalHistory medicalHistoryId) {
+        this.medicalHistoryId = medicalHistoryId;
+    }
 
     public String getKinshipDegree() {
         return kinshipDegree;
     }
 
-    public RelativesDiseases setKinshipDegree(String kinshipDegree) {
+    public void setKinshipDegree(String kinshipDegree) {
         this.kinshipDegree = kinshipDegree;
-        return this;
     }
 }

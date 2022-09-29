@@ -16,12 +16,12 @@ public class MedicalHistory {
     @ElementCollection
     private List<String> limitations;
     private String bloodType;
-    private SurgicalProcedures surgicalProcedures;
-    private ContinuousUseMedications continuousUseMedications;
+    private List<SurgicalProcedures> surgicalProcedures;
+    private List<ContinuousUseMedications> continuousUseMedications;
     private String allergies;
     private boolean isSmoker;
     private boolean isPregnant;
-    private RelativesDiseases relativesDiseases;
+    private List<RelativesDiseases> relativesDiseases;
     @OneToOne
     @JoinColumn(name = "patient_id", foreignKey = @ForeignKey(name = "id"))
     private Patient patientId;
@@ -67,23 +67,23 @@ public class MedicalHistory {
         this.bloodType = bloodType;
     }
 
-    @OneToOne
+    @OneToMany
     @JoinColumn(name="surgicalProcedures_id", nullable = false)
-    public SurgicalProcedures getSurgicalProcedures() {
+    public List<SurgicalProcedures> getSurgicalProcedures() {
         return surgicalProcedures;
     }
 
-    public void setSurgicalProcedures(SurgicalProcedures surgicalProcedures) {
+    public void setSurgicalProcedures(List<SurgicalProcedures> surgicalProcedures) {
         this.surgicalProcedures = surgicalProcedures;
     }
 
-    @OneToOne
+    @OneToMany
     @JoinColumn(name="continuousUseMedications_id", nullable = false)
-    public ContinuousUseMedications getContinuousUseMedications() {
+    public List<ContinuousUseMedications> getContinuousUseMedications() {
         return continuousUseMedications;
     }
 
-    public void setContinuousUseMedications(ContinuousUseMedications continuousUseMedications) {
+    public void setContinuousUseMedications(List<ContinuousUseMedications> continuousUseMedications) {
         this.continuousUseMedications = continuousUseMedications;
     }
 
@@ -111,14 +111,14 @@ public class MedicalHistory {
         isPregnant = pregnant;
     }
 
-    @OneToOne
+    @OneToMany
     @JoinColumn(name="relativesDiseases_id", nullable = false)
-    public RelativesDiseases getRelativesDiseases() {
+    public List<RelativesDiseases> getRelativesDiseases() {
         return relativesDiseases;
     }
 
 
-    public void setRelativesDiseases(RelativesDiseases relativesDiseases) {
+    public void setRelativesDiseases(List<RelativesDiseases> relativesDiseases) {
         this.relativesDiseases = relativesDiseases;
     }
 }

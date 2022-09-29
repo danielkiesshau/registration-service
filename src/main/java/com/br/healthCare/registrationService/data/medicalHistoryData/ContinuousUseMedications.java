@@ -1,9 +1,8 @@
 package com.br.healthCare.registrationService.data.medicalHistoryData;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.br.healthCare.registrationService.data.MedicalHistory;
+
+import javax.persistence.*;
 
 @Entity
 public class ContinuousUseMedications {
@@ -14,6 +13,27 @@ public class ContinuousUseMedications {
     private String useTime;
     private String usageFrequency;
     private Double medicationDoseMg;
+    @OneToOne
+    @JoinColumn(name = "meicalHistory_id", foreignKey = @ForeignKey(name = "id"))
+    private MedicalHistory medicalHistoryId;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public ContinuousUseMedications setId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
+    public MedicalHistory getMedicalHistoryId() {
+        return medicalHistoryId;
+    }
+
+    public ContinuousUseMedications setMedicalHistoryId(MedicalHistory medicalHistoryId) {
+        this.medicalHistoryId = medicalHistoryId;
+        return this;
+    }
 
     public String getMedicationName() {
         return medicationName;

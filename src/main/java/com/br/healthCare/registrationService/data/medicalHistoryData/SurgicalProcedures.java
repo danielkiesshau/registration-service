@@ -1,9 +1,8 @@
 package com.br.healthCare.registrationService.data.medicalHistoryData;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.br.healthCare.registrationService.data.MedicalHistory;
+
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -14,6 +13,25 @@ public class SurgicalProcedures {
     private String procedureName;
     private String complications;
     private Date date;
+    @OneToOne
+    @JoinColumn(name = "meicalHistory_id", foreignKey = @ForeignKey(name = "id"))
+    private MedicalHistory medicalHistoryId;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public MedicalHistory getMedicalHistoryId() {
+        return medicalHistoryId;
+    }
+
+    public void setMedicalHistoryId(MedicalHistory medicalHistoryId) {
+        this.medicalHistoryId = medicalHistoryId;
+    }
 
     public String getProcedureName() {
         return procedureName;
