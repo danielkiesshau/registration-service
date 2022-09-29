@@ -1,8 +1,13 @@
-package com.br.healthCare.registrationService.infra;
+package com.br.healthCare.registrationService.infra.Patient;
 
 
 import com.br.healthCare.registrationService.data.Patient;
+<<<<<<< HEAD:src/main/java/com/br/healthCare/registrationService/infra/PatientDao.java
 import com.br.healthCare.registrationService.data.pacientData.PatientAddress;
+=======
+import com.br.healthCare.registrationService.infra.PatientAddress.PatientAddressRepository;
+import com.br.healthCare.registrationService.infra.RegistrationDAO;
+>>>>>>> 39bf2d028235d7c5d592d4b81884520d8f285862:src/main/java/com/br/healthCare/registrationService/infra/Patient/PatientDao.java
 import com.br.healthCare.registrationService.infra.helpers.IterableHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,6 +67,9 @@ public class PatientDao implements RegistrationDAO<Patient> {
 
     public Patient findByCPF() {
         List<Patient> list = patientRepository.findByCPF(patient.getCpf());
+
+        if (list.isEmpty()) return null;
+
         return list.get(0);
     }
 

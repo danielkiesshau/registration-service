@@ -2,6 +2,8 @@ package com.br.healthCare.registrationService.domain.controllers;
 
 import com.br.healthCare.registrationService.data.Patient;
 import com.br.healthCare.registrationService.domain.commands.PatientCommand;
+import org.apache.coyote.Response;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,8 +18,15 @@ public class PatientController {
 
     @PostMapping(path="")
     public ResponseEntity createUser (@RequestBody Patient patient) {
-        patientCommand.createPatient(patient);
 
+        try {
+            patientCommand.createPatient(patient);
+        } catch (ConstraintViolationException constraintViolationException) {
+            return ResponseEntity.status(400).body("CPF already registered");
+        }
+        catch (Exception error) {
+            return ResponseEntity.status(400).body(error.getMessage());
+        }
         return ResponseEntity.status(201).body("use created successfully");
     }
 

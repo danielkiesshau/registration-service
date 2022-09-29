@@ -2,6 +2,7 @@ package com.br.healthCare.registrationService.data;
 
 
 
+import com.br.healthCare.registrationService.data.pacientData.PatientAddress;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -20,7 +21,8 @@ public class Patient {
     @NotNull
     private String weight;
     @NotNull
-    private int cpf;
+    @Column(unique = true)
+    private String cpf;
     @NotNull
     private String phoneNumber;
     @NotNull
@@ -39,13 +41,13 @@ public class Patient {
     )
 
     @NotNull
-    private com.br.healthCare.registrationService.data.pacientData.PatientAddress address;
+    private PatientAddress address;
 
-    public com.br.healthCare.registrationService.data.pacientData.PatientAddress getAddress() {
+    public PatientAddress getAddress() {
         return address;
     }
 
-    public Patient setAddress(com.br.healthCare.registrationService.data.pacientData.PatientAddress address) {
+    public Patient setAddress(PatientAddress address) {
         this.address = address;
         return this;
     }
@@ -90,11 +92,11 @@ public class Patient {
         this.weight = weight;
     }
 
-    public int getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(int cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
