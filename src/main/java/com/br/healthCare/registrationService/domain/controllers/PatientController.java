@@ -1,50 +1,47 @@
 package com.br.healthCare.registrationService.domain.controllers;
 
 import com.br.healthCare.registrationService.data.Patient;
-import com.br.healthCare.registrationService.infra.PatientDao;
+import com.br.healthCare.registrationService.domain.commands.PatientCommand;
+import org.apache.coyote.Response;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(path="/patient")
 public class PatientController {
 
     @Autowired
-    private PatientDao patientDao;
+    private PatientCommand patientCommand;
 
     @PostMapping(path="")
-    public @ResponseBody String addNewUser (@RequestParam String name
-            , @RequestParam String email) {
+    public ResponseEntity createUser (@RequestBody Patient patient) {
+        try {
+            patientCommand.createPatient(patient);
+        } catch (ConstraintViolationException constraintViolationException) {
+            return ResponseEntity.status(400).body("CPF already registered");
+        }
+        catch (Exception error) {
+            return ResponseEntity.status(400).body(error.getMessage());
+        }
 
-        // TODO: Criar DTO para recebimento de parametros
-        Patient n = new Patient();
-        n.setName(name);
-        n.setEmail(email);
 
-        // TODO: Validar parâmetros
-
-        // TODO: passar chamada do repositório para um COMMAND (PatientCommand)
-        patientDao.setPatient(n);
-        patientDao.insertData();
-
-        return "Saved";
+        return ResponseEntity.status(201).body("use created successfully");
     }
 
     @GetMapping(path="")
-    public @ResponseBody Patient getByName(@RequestParam String name, @RequestParam String email) {
-        Patient n = new Patient();
-        n.setName(name);
-        n.setEmail(email);
-
-        // TODO: Validar parâmetros
-
-        // TODO: passar chamada do repositório para um COMMAND (PatientCommand)
-        patientDao.setPatient(n);
-        return patientDao.findByEmail();
+    public @ResponseBody Patient getPatient(@RequestParam String name, @RequestParam String email) {
+        return null;
+//        Patient n = new Patient();
+//        n.setName(name);
+//        n.setEmail(email);
+//
+//        // TODO: Validar parâmetros
+//
+//        // TODO: passar chamada do repositório para um COMMAND (PatientCommand)
+//        patientDao.setPatient(n);
+//        return patientDao.findByEmail();
     }
 }
