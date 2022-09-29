@@ -1,4 +1,4 @@
-package com.br.healthCare.registrationService.infra;
+package com.br.healthCare.registrationService.infra.Patient;
 
 import com.br.healthCare.registrationService.data.Patient;
 import org.springframework.data.jpa.repository.Query;
@@ -16,5 +16,5 @@ public interface PatientRepository extends CrudRepository<Patient, Integer> {
     List<Patient> findByEmail(String email);
 
     @Query(value = "SELECT * FROM patient WHERE cpf = ?1 LIMIT 1", nativeQuery = true)
-    List<Patient> findByCPF(int cpf);
+    List<Patient> findByCPF(String cpf);
 }
