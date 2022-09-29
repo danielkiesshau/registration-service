@@ -14,7 +14,7 @@ public class ContinuousUseMedications {
     private String usageFrequency;
     private Double medicationDoseMg;
     @OneToOne
-    @JoinColumn(name = "meicalHistory_id", foreignKey = @ForeignKey(name = "id"))
+    @JoinColumn(name = "medicalHistory_id", foreignKey = @ForeignKey(name = "id"))
     private MedicalHistory medicalHistoryId;
 
     public Integer getId() {
@@ -26,8 +26,8 @@ public class ContinuousUseMedications {
         return this;
     }
 
-    public MedicalHistory getMedicalHistoryId() {
-        return medicalHistoryId;
+    public int getMedicalHistoryId() {
+        return medicalHistoryId.getId();
     }
 
     public ContinuousUseMedications setMedicalHistoryId(MedicalHistory medicalHistoryId) {

@@ -4,7 +4,6 @@ import com.br.healthCare.registrationService.data.medicalHistoryData.ContinuousU
 import com.br.healthCare.registrationService.infra.RegistrationDAO;
 import com.br.healthCare.registrationService.infra.helpers.IterableHelper;
 import com.br.healthCare.registrationService.infra.medicalHistoryDatabase.Repositories.ContinuousUseMedicationRepository;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,6 @@ import java.util.List;
 @Service
 public class ContinuousUseMedicationDAO implements RegistrationDAO {
     private ContinuousUseMedications continuousUseMedications;
-    Logger logger;
     @Autowired
     private ContinuousUseMedicationRepository continuousUseMedicationRepository;
 
@@ -36,5 +34,10 @@ public class ContinuousUseMedicationDAO implements RegistrationDAO {
     @Override
     public void deleteData(){
         continuousUseMedicationRepository.save(continuousUseMedications);
+    }
+
+    public List<ContinuousUseMedications> findByMedicalHistoryId() {
+        List<ContinuousUseMedications> result = continuousUseMedicationRepository.findByMedicalHistoryId(continuousUseMedications.getMedicalHistoryId());
+        return result;
     }
 }
