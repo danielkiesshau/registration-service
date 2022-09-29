@@ -2,6 +2,7 @@ package com.br.healthCare.registrationService.domain.controllers;
 
 import com.br.healthCare.registrationService.data.Patient;
 import com.br.healthCare.registrationService.domain.commands.PatientCommand;
+import com.br.healthCare.registrationService.domain.controllers.contracts.GetPatientRequest;
 import org.apache.coyote.Response;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(path="/patient")
@@ -47,24 +49,25 @@ public class PatientController {
     }
 
     @GetMapping(path="")
-    public @ResponseBody Patient getPatient(@RequestParam String name, @RequestParam String email) {
-        return null;
-//        Patient n = new Patient();
-//        n.setName(name);
-//        n.setEmail(email);
-//
-//        // TODO: Validar parâmetros
-//
-//        // TODO: passar chamada do repositório para um COMMAND (PatientCommand)
-//        patientDao.setPatient(n);
-//        return patientDao.findByEmail();
+    public @ResponseBody Patient getPatient(
+            @RequestParam(required = false) Integer id,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String cpf
+    ) {
+        GetPatientRequest request = new GetPatientRequest(
+                id,
+                name,
+                email,
+                cpf
+        );
+
+        return patientCommand.getPatient(request);
     }
 
     @GetMapping(path="/all")
     public ResponseEntity<List<Patient>> getAllPatients() {
         List<Patient> patients =  patientCommand.getAllPatients();
-
-
 
         return ResponseEntity.status(200).body(patients);
     }
