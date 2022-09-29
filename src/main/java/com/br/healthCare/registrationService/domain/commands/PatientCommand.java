@@ -18,12 +18,12 @@ public class PatientCommand {
     private PatientAddressDao patientAddressDao;
 
     private Patient patient;
-    public void createPatient(Patient patient) throws Exception {
+    public void createPatient(Patient patient, boolean isUpdate) throws Exception {
         PatientAddress patientAddress = patient.getAddress();
 
         this.patient = patient;
 
-        this.runValidations();
+        this.runValidations(isUpdate);
 
         if (patientAddress != null) {
             this.savePatientAddress(patientAddress);
@@ -84,10 +84,16 @@ public class PatientCommand {
         }
     }
 
-    private void runValidations() throws Exception {
+    private void runValidations(boolean shouldIgnoreCPF) throws Exception {
         this.validateEmail();
         this.validateGenre();
         this.validatePhoneNumber();
-        this.validateCPF();
+
+        if (!shouldIgnoreCPF) this.validateCPF();
     }
+
+    public void updatePatient(Patient patient) throws Exception {
+        this.createPatient(patient, true);
+    }
+
 }
