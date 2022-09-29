@@ -45,7 +45,7 @@ public class PatientDao implements RegistrationDAO<Patient> {
 
     @Override
     public void deleteData(){
-        patientRepository.delete(patient);
+        patientRepository.deleteById(patient.getId());
     }
 
 

@@ -32,6 +32,18 @@ public class PatientCommand {
         this.savePatient(patient);
     }
 
+    public void removePatient(Integer id) {
+        Patient patient = new Patient();
+        patient.setId(id);
+
+        this.deletePatient(patient);
+    }
+
+    private void deletePatient(Patient patient) {
+        patientDao.setPatient(patient);
+        patientDao.deleteData();
+    }
+
     private void savePatient(Patient patient) {
         patientDao.setPatient(patient);
         patientDao.insertData();

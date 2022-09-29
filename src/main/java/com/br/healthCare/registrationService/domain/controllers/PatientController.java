@@ -5,6 +5,7 @@ import com.br.healthCare.registrationService.domain.commands.PatientCommand;
 import org.apache.coyote.Response;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -55,5 +56,19 @@ public class PatientController {
 //        // TODO: passar chamada do repositório para um COMMAND (PatientCommand)
 //        patientDao.setPatient(n);
 //        return patientDao.findByEmail();
+    }
+
+    @DeleteMapping(path="")
+    public @ResponseBody ResponseEntity deletePatient(@RequestParam Integer id) {
+        try {
+            patientCommand.removePatient(id);
+        } catch (EmptyResultDataAccessException error) {
+            return ResponseEntity.status(400).body("patient not found");
+        } catch (Exception error) {
+            return ResponseEntity.status(500).body("patient deletion failed");
+        }
+
+
+        return ResponseEntity.status(200).body("patient deleted");
     }
 }
