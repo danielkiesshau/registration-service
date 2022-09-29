@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping(path="/patient")
 public class PatientController {
@@ -56,6 +58,15 @@ public class PatientController {
 //        // TODO: passar chamada do repositório para um COMMAND (PatientCommand)
 //        patientDao.setPatient(n);
 //        return patientDao.findByEmail();
+    }
+
+    @GetMapping(path="/all")
+    public ResponseEntity<List<Patient>> getAllPatients() {
+        List<Patient> patients =  patientCommand.getAllPatients();
+
+
+
+        return ResponseEntity.status(200).body(patients);
     }
 
     @DeleteMapping(path="")

@@ -7,6 +7,7 @@ import com.br.healthCare.registrationService.infra.Patient.PatientDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,6 +19,10 @@ public class PatientCommand {
     private PatientAddressDao patientAddressDao;
 
     private Patient patient;
+
+    public List<Patient> getAllPatients() {
+        return patientDao.getData();
+    }
     public void createPatient(Patient patient, boolean isUpdate) throws Exception {
         PatientAddress patientAddress = patient.getAddress();
 
@@ -107,5 +112,6 @@ public class PatientCommand {
     public void updatePatient(Patient patient) throws Exception {
         this.createPatient(patient, true);
     }
+
 
 }
