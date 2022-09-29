@@ -17,9 +17,9 @@ public class PatientController {
     private PatientCommand patientCommand;
 
     @PostMapping(path="")
-    public ResponseEntity createUser (@RequestBody Patient patient) {
+    public ResponseEntity createPatient (@RequestBody Patient patient) {
         try {
-            patientCommand.createPatient(patient);
+            patientCommand.createPatient(patient, false);
         } catch (ConstraintViolationException constraintViolationException) {
             return ResponseEntity.status(400).body("CPF already registered");
         }
@@ -28,7 +28,19 @@ public class PatientController {
         }
 
 
-        return ResponseEntity.status(201).body("use created successfully");
+        return ResponseEntity.status(201).body("patient created successfully");
+    }
+
+    @PutMapping
+    public ResponseEntity updatePatient (@RequestBody Patient patient) {
+        try {
+            patientCommand.updatePatient(patient);
+        } catch (Exception error) {
+            return ResponseEntity.status(400).body(error.getMessage());
+        }
+
+
+        return ResponseEntity.status(201).body("patient updated successfully");
     }
 
     @GetMapping(path="")
