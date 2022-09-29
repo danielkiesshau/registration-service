@@ -2,6 +2,7 @@ package com.br.healthCare.registrationService.infra;
 
 
 import com.br.healthCare.registrationService.data.Patient;
+import com.br.healthCare.registrationService.data.pacientData.PatientAddress;
 import com.br.healthCare.registrationService.infra.helpers.IterableHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,11 @@ public class PatientDao implements RegistrationDAO<Patient> {
 
     @Autowired
     private PatientRepository patientRepository;
+    @Autowired
+    private PatientAddressRepository patientAddressRepository;
 
     @Override
-    public void insertData(){
+    public void insertData() {
         patientRepository.save(patient);
     }
 
