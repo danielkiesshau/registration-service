@@ -150,6 +150,4 @@ public class PatientCommand {
     public void updatePatient(Patient patient) throws Exception {
         this.createPatient(patient, true);
     }
-
-
 }

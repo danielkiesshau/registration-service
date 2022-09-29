@@ -3,7 +3,6 @@ package com.br.healthCare.registrationService.domain.controllers;
 import com.br.healthCare.registrationService.data.Patient;
 import com.br.healthCare.registrationService.domain.commands.PatientCommand;
 import com.br.healthCare.registrationService.domain.controllers.contracts.GetPatientRequest;
-import org.apache.coyote.Response;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping(path="/patient")
@@ -36,6 +34,7 @@ public class PatientController {
         return ResponseEntity.status(201).body("patient created successfully");
     }
 
+
     @PutMapping
     public ResponseEntity updatePatient (@RequestBody Patient patient) {
         try {
@@ -49,7 +48,7 @@ public class PatientController {
     }
 
     @GetMapping(path="")
-    public @ResponseBody Patient getPatient(
+    public @ResponseBody ResponseEntity<Patient> getPatient(
             @RequestParam(required = false) Integer id,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String email,
@@ -62,7 +61,13 @@ public class PatientController {
                 cpf
         );
 
-        return patientCommand.getPatient(request);
+        Patient patient = patientCommand.getPatient(request);
+
+        if (patient == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.status(200).body(patient);
     }
 
     @GetMapping(path="/all")
