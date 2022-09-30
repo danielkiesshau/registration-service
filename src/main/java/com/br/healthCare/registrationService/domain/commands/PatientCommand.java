@@ -2,12 +2,13 @@ package com.br.healthCare.registrationService.domain.commands;
 
 import com.br.healthCare.registrationService.data.Patient;
 import com.br.healthCare.registrationService.data.pacientData.PatientAddress;
-
+import com.br.healthCare.registrationService.domain.controllers.contracts.GetPatientRequest;
 import com.br.healthCare.registrationService.infra.PatientAddress.PatientAddressDao;
 import com.br.healthCare.registrationService.infra.Patient.PatientDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,18 +20,71 @@ public class PatientCommand {
     private PatientAddressDao patientAddressDao;
 
     private Patient patient;
-    public void createPatient(Patient patient) throws Exception {
+
+    public List<Patient> getAllPatients() {
+        return patientDao.getData();
+    }
+
+    public Patient getPatient(GetPatientRequest request) {
+        if (request.getId() != null) {
+            return patientDao.getPatientById(request.getId());
+        }
+
+        if (request.getName() != null) {
+            return patientDao.getPatientByName(request.getName());
+        }
+
+        if (request.getEmail() != null) {
+            return patientDao.getPatientByEmail(request.getEmail());
+        }
+
+        if (request.getCpf() != null) {
+            return patientDao.getPatientByCPF(request.getCpf());
+        }
+
+        return null;
+    }
+
+    public void createPatient(Patient patient, boolean isUpdate) throws Exception {
         PatientAddress patientAddress = patient.getAddress();
 
         this.patient = patient;
 
-        this.runValidations();
+        this.runValidations(isUpdate);
 
         if (patientAddress != null) {
             this.savePatientAddress(patientAddress);
         }
 
         this.savePatient(patient);
+    }
+
+    public void removePatient(Integer id) {
+        Patient patient = new Patient();
+        patient.setId(id);
+
+        this.deletePatient(patient);
+    }
+
+    private Patient getPatientById(int id) {
+        return patientDao.getPatientById(id);
+    }
+
+    private Patient getPatientByName(String name) {
+        return patientDao.getPatientByName(name);
+    }
+
+    private Patient getPatientByEmail(String email) {
+        return patientDao.getPatientByEmail(email);
+    }
+
+    private Patient getPatientByCPF(String cpf) {
+        return patientDao.getPatientByCPF(cpf);
+    }
+
+    private void deletePatient(Patient patient) {
+        patientDao.setPatient(patient);
+        patientDao.deleteData();
     }
 
     private void savePatient(Patient patient) {
@@ -85,10 +139,15 @@ public class PatientCommand {
         }
     }
 
-    private void runValidations() throws Exception {
+    private void runValidations(boolean shouldIgnoreCPF) throws Exception {
         this.validateEmail();
         this.validateGenre();
         this.validatePhoneNumber();
-        this.validateCPF();
+
+        if (!shouldIgnoreCPF) this.validateCPF();
+    }
+
+    public void updatePatient(Patient patient) throws Exception {
+        this.createPatient(patient, true);
     }
 }

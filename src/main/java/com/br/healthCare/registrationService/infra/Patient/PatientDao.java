@@ -30,10 +30,35 @@ public class PatientDao implements RegistrationDAO<Patient> {
     @Autowired
     private PatientAddressRepository patientAddressRepository;
 
+    public Patient getPatientById(int id) {
+        return patientRepository.findById(id);
+    }
+
+    public Patient getPatientByName(String name) {
+        return patientRepository.findByName(name);
+    }
+
+    public Patient getPatientByEmail(String email) {
+        return patientRepository.findByEmail(email);
+    }
+
+    public Patient getPatientByCPF(String cpf) {
+       return patientRepository.findByCPF(cpf);
+    }
+
+    @Override
+    public List<Patient> getData() {
+        Iterable<Patient> iterable = patientRepository.getAll();
+
+        return new IterableHelper().toList(iterable);
+    }
+
     @Override
     public void insertData() {
         patientRepository.save(patient);
     }
+
+
 
     @Override
     public void updateData(){
@@ -41,36 +66,23 @@ public class PatientDao implements RegistrationDAO<Patient> {
     }
 
     @Override
-    public List<Patient> getData(){
-        Iterable<Patient> iterable = patientRepository.findAll();
-
-        return new IterableHelper().toList(iterable);
-    }
-
-    @Override
     public void deleteData(){
-        patientRepository.delete(patient);
+        patientRepository.deleteById(patient.getId());
     }
 
 
 
-    public List<Patient> findByName() {
-        List<Patient> result = patientRepository.findByName(patient.getName());
-        return result;
+    public Patient findByName() {
+        return patientRepository.findByName(patient.getName());
     }
 
 
     public Patient findByEmail() {
-        List<Patient> list = patientRepository.findByEmail(patient.getEmail());
-        return list.get(0);
+        return patientRepository.findByEmail(patient.getEmail());
     }
 
     public Patient findByCPF() {
-        List<Patient> list = patientRepository.findByCPF(patient.getCpf());
-
-        if (list.isEmpty()) return null;
-
-        return list.get(0);
+        return patientRepository.findByCPF(patient.getCpf());
     }
 
     public Optional<Patient> findById() {
