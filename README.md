@@ -1,20 +1,29 @@
 # Registration Service
 CRUD application to manage patient and medical history.
 
-## Setup
 
-### 1. Run MySQL server
+## Steps to Run
+
+1. Run MySQL server
 ```shell
  cd mysql
  docker-compose up
 ```
 
-### 2. Run application
+2. Run application
 `/src/main/java/com/br/healthCare/registrationService/appRunner/ApplicationRunner.java`
 
 
-### 3. Test the rest API with your preferred method
-`curl localhost:8080/<endpoint>`
+3. Test the rest API with your preferred method
+
+### Suggestion:
+Import JSON collection into your postman [http://localhost:8080/v2/api-docs](http://localhost:8080/v2/api-docs)
+
+## Swagger
+
+Swagger is under [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
+It will show all CRUD endpoints for Patient and MedicalHistory
 
 ## Useful commands
 
