@@ -29,10 +29,10 @@ It will show all CRUD endpoints for Patient and MedicalHistory
 
 ### --- Docker commands ---
 ```
-docker exec -it db-registration-service-7 bash   ## connects to mysql container's bash
+docker exec -it db-registration-service bash   ## connects to mysql container's bash
 ```
 ```
-docker logs db-registration-service-7 --follow   ## logs from mysql container
+docker logs db-registration-service --follow   ## logs from mysql container
 ```
 
 ### --- Bash commands ---
