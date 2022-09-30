@@ -2,6 +2,7 @@ package com.br.healthCare.registrationService.domain.commands;
 
 import com.br.healthCare.registrationService.data.Patient;
 import com.br.healthCare.registrationService.data.pacientData.PatientAddress;
+import com.br.healthCare.registrationService.domain.controllers.contracts.GetPatientRequest;
 import com.br.healthCare.registrationService.infra.PatientAddress.PatientAddressDao;
 import com.br.healthCare.registrationService.infra.Patient.PatientDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,27 @@ public class PatientCommand {
     public List<Patient> getAllPatients() {
         return patientDao.getData();
     }
+
+    public Patient getPatient(GetPatientRequest request) {
+        if (request.getId() != null) {
+            return patientDao.getPatientById(request.getId());
+        }
+
+        if (request.getName() != null) {
+            return patientDao.getPatientByName(request.getName());
+        }
+
+        if (request.getEmail() != null) {
+            return patientDao.getPatientByEmail(request.getEmail());
+        }
+
+        if (request.getCpf() != null) {
+            return patientDao.getPatientByCPF(request.getCpf());
+        }
+
+        return null;
+    }
+
     public void createPatient(Patient patient, boolean isUpdate) throws Exception {
         PatientAddress patientAddress = patient.getAddress();
 
@@ -42,6 +64,22 @@ public class PatientCommand {
         patient.setId(id);
 
         this.deletePatient(patient);
+    }
+
+    private Patient getPatientById(int id) {
+        return patientDao.getPatientById(id);
+    }
+
+    private Patient getPatientByName(String name) {
+        return patientDao.getPatientByName(name);
+    }
+
+    private Patient getPatientByEmail(String email) {
+        return patientDao.getPatientByEmail(email);
+    }
+
+    private Patient getPatientByCPF(String cpf) {
+        return patientDao.getPatientByCPF(cpf);
     }
 
     private void deletePatient(Patient patient) {
@@ -112,6 +150,4 @@ public class PatientCommand {
     public void updatePatient(Patient patient) throws Exception {
         this.createPatient(patient, true);
     }
-
-
 }

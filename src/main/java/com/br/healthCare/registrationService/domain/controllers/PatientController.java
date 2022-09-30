@@ -2,7 +2,7 @@ package com.br.healthCare.registrationService.domain.controllers;
 
 import com.br.healthCare.registrationService.data.Patient;
 import com.br.healthCare.registrationService.domain.commands.PatientCommand;
-import org.apache.coyote.Response;
+import com.br.healthCare.registrationService.domain.controllers.contracts.GetPatientRequest;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -34,6 +34,7 @@ public class PatientController {
         return ResponseEntity.status(201).body("patient created successfully");
     }
 
+
     @PutMapping
     public ResponseEntity updatePatient (@RequestBody Patient patient) {
         try {
@@ -47,24 +48,31 @@ public class PatientController {
     }
 
     @GetMapping(path="")
-    public @ResponseBody Patient getPatient(@RequestParam String name, @RequestParam String email) {
-        return null;
-//        Patient n = new Patient();
-//        n.setName(name);
-//        n.setEmail(email);
-//
-//        // TODO: Validar parâmetros
-//
-//        // TODO: passar chamada do repositório para um COMMAND (PatientCommand)
-//        patientDao.setPatient(n);
-//        return patientDao.findByEmail();
+    public @ResponseBody ResponseEntity<Patient> getPatient(
+            @RequestParam(required = false) Integer id,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String cpf
+    ) {
+        GetPatientRequest request = new GetPatientRequest(
+                id,
+                name,
+                email,
+                cpf
+        );
+
+        Patient patient = patientCommand.getPatient(request);
+
+        if (patient == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.status(200).body(patient);
     }
 
     @GetMapping(path="/all")
     public ResponseEntity<List<Patient>> getAllPatients() {
         List<Patient> patients =  patientCommand.getAllPatients();
-
-
 
         return ResponseEntity.status(200).body(patients);
     }
