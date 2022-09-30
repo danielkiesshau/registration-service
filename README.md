@@ -53,3 +53,13 @@ SHOW COLUMNS FROM TABLE <table-name>;
 ```
 [QUERY - EXEMPLO:] SELECT * FROM patient; 
 ```
+
+
+#### Applied Design Patterns
+1. DAO - Access to database data
+2. Repository - Database queries
+3. Controller - Request/Response handling
+4. Command - Business Rules
+5. SOLID
+6. Scaffold inspired by Clean Architecture
+
