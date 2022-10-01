@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RegistrationCommand {
@@ -45,7 +46,7 @@ public class RegistrationCommand {
         List<ContinuousUseMedications> continuousUseMedications = medicalHistory.getContinuousUseMedications();
         List<RelativesDiseases> relativesDiseases = medicalHistory.getRelativesDiseases();
 
-        this.validatePatientId(medicalHistory.getPatientId());
+        this.validatePatientId(medicalHistory.getPatient().getId());
 
         if (!surgicalProcedures.isEmpty()) {
             this.saveSurgicalProcedures(surgicalProcedures);
@@ -90,8 +91,8 @@ public class RegistrationCommand {
 
 
     private void validatePatientId (Integer patientId) throws Exception {
-        Patient patient = patientDao.findById().get();
-        if(patient != null){
+        Optional<Patient> patient = patientDao.findById(patientId);
+        if(!patient.isEmpty()){
             return;
         }
         throw new Exception("Patient not found");

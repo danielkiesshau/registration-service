@@ -36,9 +36,7 @@ public class Patient {
     private String motherName;
 
     @OneToOne
-    @JoinColumn(name = "address_id",
-            foreignKey = @ForeignKey(name = "id")
-    )
+    @JoinColumn(name = "address_id")
 
     @NotNull
     private PatientAddress address;
