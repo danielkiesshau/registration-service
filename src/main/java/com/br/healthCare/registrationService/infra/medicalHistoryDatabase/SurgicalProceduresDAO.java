@@ -36,8 +36,8 @@ public class SurgicalProceduresDAO implements RegistrationDAO {
         surgicalProceduresRepository.delete(surgicalProcedures);
     }
 
-    public List<SurgicalProcedures> findByMedicalHistoryId() {
-        List<SurgicalProcedures> result = surgicalProceduresRepository.findByMedicalHistoryId(surgicalProcedures.getMedicalHistoryId());
+    public List<SurgicalProcedures> findByMedicalHistoryId(Integer medicalHistoryId) {
+        List<SurgicalProcedures> result = surgicalProceduresRepository.findByMedicalHistoryId(medicalHistoryId);
         return result;
     }
 

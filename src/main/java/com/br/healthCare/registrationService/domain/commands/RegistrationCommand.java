@@ -5,9 +5,6 @@ import com.br.healthCare.registrationService.data.Patient;
 import com.br.healthCare.registrationService.data.medicalHistoryData.ContinuousUseMedications;
 import com.br.healthCare.registrationService.data.medicalHistoryData.RelativesDiseases;
 import com.br.healthCare.registrationService.data.medicalHistoryData.SurgicalProcedures;
-import com.br.healthCare.registrationService.data.pacientData.PatientAddress;
-import com.br.healthCare.registrationService.domain.controllers.contracts.GetMedicalHistoryRequest;
-import com.br.healthCare.registrationService.domain.controllers.contracts.GetPatientRequest;
 import com.br.healthCare.registrationService.infra.Patient.PatientDao;
 import com.br.healthCare.registrationService.infra.medicalHistoryDatabase.ContinuousUseMedicationDAO;
 import com.br.healthCare.registrationService.infra.medicalHistoryDatabase.MedicalHistoryDao;
@@ -38,11 +35,8 @@ public class RegistrationCommand {
         return medicalHistoryDao.getData();
     }
 
-    public MedicalHistory medicalHistory(GetMedicalHistoryRequest request) {
-        if (request.getId() != null) {
-            return medicalHistoryDao.findByPatientId(request.getId());
-        }
-        return null;
+    public MedicalHistory getMedicalHistory(Integer patientId) {
+        return medicalHistoryDao.findByPatientId(patientId);
     }
 
 
@@ -105,5 +99,16 @@ public class RegistrationCommand {
 
     public void updateMedicalHistory(MedicalHistory medicalHistory) throws Exception {
         this.createMedicalHistory(medicalHistory);
+    }
+
+    private void deleteMedicalHistory(MedicalHistory medicalHistory) {
+        medicalHistoryDao.setMedicalHistory(medicalHistory);
+        medicalHistoryDao.deleteData();
+    }
+    public void removeMedicalHistory(Integer id)  {
+        MedicalHistory medicalHistory = new MedicalHistory();
+        medicalHistory.setId(id);
+
+       this.deleteMedicalHistory(medicalHistory);
     }
 }
