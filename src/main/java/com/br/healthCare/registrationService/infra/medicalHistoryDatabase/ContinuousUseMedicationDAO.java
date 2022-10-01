@@ -1,9 +1,9 @@
 package com.br.healthCare.registrationService.infra.medicalHistoryDatabase;
 
-import com.br.healthCare.registrationService.data.medicalHistoryData.ContinuousUseMedications;
+import com.br.healthCare.registrationService.infra.data.medicalHistoryData.ContinuousUseMedicationsData;
 import com.br.healthCare.registrationService.infra.RegistrationDAO;
 import com.br.healthCare.registrationService.infra.helpers.IterableHelper;
-import com.br.healthCare.registrationService.infra.medicalHistoryDatabase.Repositories.ContinuousUseMedicationRepository;
+import com.br.healthCare.registrationService.infra.medicalHistoryDatabase.medicalHistoryRepositories.ContinuousUseMedicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,36 +12,36 @@ import java.util.List;
 
 @Service
 public class ContinuousUseMedicationDAO implements RegistrationDAO {
-    private ContinuousUseMedications continuousUseMedications;
+    private ContinuousUseMedicationsData continuousUseMedicationsData;
     @Autowired
     private ContinuousUseMedicationRepository continuousUseMedicationRepository;
 
     @Override
     public void insertData(){
-        continuousUseMedicationRepository.save(continuousUseMedications);
+        continuousUseMedicationRepository.save(continuousUseMedicationsData);
     }
 
     @Override
     public void updateData(){
-        continuousUseMedicationRepository.save(continuousUseMedications);
+        continuousUseMedicationRepository.save(continuousUseMedicationsData);
     }
 
     @Override
-    public List<ContinuousUseMedications> getData(){
-        Iterable<ContinuousUseMedications> iterable = continuousUseMedicationRepository.findAll();
+    public List<ContinuousUseMedicationsData> getData(){
+        Iterable<ContinuousUseMedicationsData> iterable = continuousUseMedicationRepository.findAll();
         return new IterableHelper().toList(iterable);    }
 
     @Override
     public void deleteData(){
-        continuousUseMedicationRepository.save(continuousUseMedications);
+        continuousUseMedicationRepository.save(continuousUseMedicationsData);
     }
 
-    public List<ContinuousUseMedications> findByMedicalHistoryId(Integer medicalHistoryId) {
-        List<ContinuousUseMedications> result = continuousUseMedicationRepository.findByMedicalHistoryId(medicalHistoryId);
+    public List<ContinuousUseMedicationsData> findByMedicalHistoryId(Integer medicalHistoryId) {
+        List<ContinuousUseMedicationsData> result = continuousUseMedicationRepository.findByMedicalHistoryId(medicalHistoryId);
         return result;
     }
 
-    public void setContinuousUseMedications(ContinuousUseMedications continuousUseMedications) {
-        this.continuousUseMedications = continuousUseMedications;
+    public void setContinuousUseMedications(ContinuousUseMedicationsData continuousUseMedicationsData) {
+        this.continuousUseMedicationsData = continuousUseMedicationsData;
     }
 }

@@ -1,8 +1,8 @@
 package com.br.healthCare.registrationService.domain.controllers;
 
-import com.br.healthCare.registrationService.data.Patient;
 import com.br.healthCare.registrationService.domain.commands.PatientCommand;
 import com.br.healthCare.registrationService.domain.controllers.contracts.GetPatientRequest;
+import com.br.healthCare.registrationService.requests.PatientRequest;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,7 +20,7 @@ public class PatientController {
     private PatientCommand patientCommand;
 
     @PostMapping(path="")
-    public ResponseEntity createPatient (@RequestBody Patient patient) {
+    public ResponseEntity createPatient (@RequestBody PatientRequest patient) {
         try {
             patientCommand.createPatient(patient, false);
         } catch (ConstraintViolationException constraintViolationException) {
@@ -35,7 +35,7 @@ public class PatientController {
 
 
     @PutMapping
-    public ResponseEntity updatePatient (@RequestBody Patient patient) {
+    public ResponseEntity updatePatient (@RequestBody PatientRequest patient) {
         try {
             patientCommand.updatePatient(patient);
         } catch (Exception error) {
@@ -47,7 +47,7 @@ public class PatientController {
     }
 
     @GetMapping(path="")
-    public @ResponseBody ResponseEntity<Patient> getPatient(
+    public @ResponseBody ResponseEntity<PatientRequest> getPatient(
             @RequestParam(required = false) Integer id,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String email,
@@ -60,7 +60,7 @@ public class PatientController {
                 cpf
         );
 
-        Patient patient = patientCommand.getPatient(request);
+        PatientRequest patient = patientCommand.getPatient(request);
 
         if (patient == null) {
             return ResponseEntity.notFound().build();
@@ -70,8 +70,8 @@ public class PatientController {
     }
 
     @GetMapping(path="/all")
-    public ResponseEntity<List<Patient>> getAllPatients() {
-        List<Patient> patients =  patientCommand.getAllPatients();
+    public ResponseEntity<List<PatientRequest>> getAllPatients() {
+        List<PatientRequest> patients =  patientCommand.getAllPatients();
 
         return ResponseEntity.status(200).body(patients);
     }

@@ -1,13 +1,15 @@
 package com.br.healthCare.registrationService.domain.commands;
 
-import com.br.healthCare.registrationService.data.Patient;
-import com.br.healthCare.registrationService.data.pacientData.PatientAddress;
+import com.br.healthCare.registrationService.infra.data.PatientData;
+import com.br.healthCare.registrationService.infra.data.pacientData.PatientAddressData;
 import com.br.healthCare.registrationService.domain.controllers.contracts.GetPatientRequest;
-import com.br.healthCare.registrationService.infra.PatientAddress.PatientAddressDao;
-import com.br.healthCare.registrationService.infra.Patient.PatientDao;
+import com.br.healthCare.registrationService.infra.PatientDatabase.PatientAddressDao;
+import com.br.healthCare.registrationService.infra.PatientDatabase.PatientDao;
+import com.br.healthCare.registrationService.requests.PatientRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,80 +21,83 @@ public class PatientCommand {
     @Autowired
     private PatientAddressDao patientAddressDao;
 
-    private Patient patient;
+    private PatientData patientData;
 
-    public List<Patient> getAllPatients() {
-        return patientDao.getData();
+    public List<PatientRequest> getAllPatients() {
+        List<PatientRequest> responseList = new ArrayList<>();
+         for(PatientData data : patientDao.getData()){
+             responseList.add(convertFromPatientData(data));
+         }
+         return responseList;
     }
 
-    public Patient getPatient(GetPatientRequest request) {
+    public PatientRequest getPatient(GetPatientRequest request) {
         if (request.getId() != null) {
-            return patientDao.getPatientById(request.getId());
+            return convertFromPatientData(patientDao.getPatientById(request.getId()));
         }
 
         if (request.getName() != null) {
-            return patientDao.getPatientByName(request.getName());
+            return convertFromPatientData(patientDao.getPatientByName(request.getName()));
         }
 
         if (request.getEmail() != null) {
-            return patientDao.getPatientByEmail(request.getEmail());
+            return convertFromPatientData(patientDao.getPatientByEmail(request.getEmail()));
         }
 
         if (request.getCpf() != null) {
-            return patientDao.getPatientByCPF(request.getCpf());
+            return convertFromPatientData(patientDao.getPatientByCPF(request.getCpf()));
         }
 
         return null;
     }
 
-    public void createPatient(Patient patient, boolean isUpdate) throws Exception {
-        PatientAddress patientAddress = patient.getAddress();
-
-        this.patient = patient;
+    public void createPatient(PatientRequest request, boolean isUpdate) throws Exception {
+        this.patientData = convertFromPatientRequest(request);
 
         this.runValidations(isUpdate);
 
-        if (patientAddress != null) {
-            this.savePatientAddress(patientAddress);
+        if (patientData.getAddress() != null) {
+            this.savePatientAddress(patientData.getAddress());
         }
 
-        this.savePatient(patient);
+        this.savePatient(patientData);
     }
 
     public void removePatient(Integer id) {
-        Patient patient = new Patient();
+        PatientData patient = new PatientData();
         patient.setId(id);
 
         this.deletePatient(patient);
     }
 
-    private Patient getPatientById(int id) {
-        return patientDao.getPatientById(id);
+    private PatientRequest getPatientById(int id) {
+        return convertFromPatientData(patientDao.getPatientById(id));
     }
 
-    private Patient getPatientByName(String name) {
-        return patientDao.getPatientByName(name);
+    private PatientRequest getPatientByName(String name) {
+        return convertFromPatientData(patientDao.getPatientByName(name));
+
     }
 
-    private Patient getPatientByEmail(String email) {
-        return patientDao.getPatientByEmail(email);
+    private PatientRequest getPatientByEmail(String email) {
+        return convertFromPatientData(patientDao.getPatientByEmail(email));
     }
 
-    private Patient getPatientByCPF(String cpf) {
-        return patientDao.getPatientByCPF(cpf);
+    private PatientRequest getPatientByCPF(String cpf) {
+        return convertFromPatientData(patientDao.getPatientByCPF(cpf));
     }
 
-    private void deletePatient(Patient patient) {
+    private void deletePatient(PatientData patient) {
         patientDao.setPatient(patient);
         patientDao.deleteData();
     }
 
-    private void savePatient(Patient patient) {
+    private void savePatient(PatientData patient) {
         patientDao.setPatient(patient);
         patientDao.insertData();
     }
 
-    private void savePatientAddress(PatientAddress address) {
+    private void savePatientAddress(PatientAddressData address) {
         patientAddressDao.setPatientAddress(address);
         patientAddressDao.insertData();
     }
@@ -101,7 +106,7 @@ public class PatientCommand {
         String regex = "^(.+)@(.+)$";
         Pattern pattern = Pattern.compile(regex);
 
-        Matcher matcher = pattern.matcher(patient.getEmail());
+        Matcher matcher = pattern.matcher(patientData.getEmail());
 
         boolean isValidEmail = matcher.matches();
 
@@ -111,7 +116,7 @@ public class PatientCommand {
     }
 
     private void validateGenre() throws Exception {
-        String genreStr = patient.getGenre();
+        String genreStr = patientData.getGenre();
         Character genre = genreStr.charAt(0);
 
         boolean isChar = genreStr.length() == 1;
@@ -123,7 +128,7 @@ public class PatientCommand {
     }
 
     private void validatePhoneNumber() throws Exception {
-        boolean isValidPhoneNumber = patient.getPhoneNumber().length() == 11;
+        boolean isValidPhoneNumber = patientData.getPhoneNumber().length() == 11;
 
         if (!isValidPhoneNumber) {
             throw new Exception("Invalid Phone Number, it must have at 11 digits");
@@ -131,7 +136,7 @@ public class PatientCommand {
     }
 
     private void validateCPF() throws Exception {
-        patientDao.setPatient(patient);
+        patientDao.setPatient(patientData);
         boolean isCPFExistent = patientDao.findByCPF() != null;
 
         if (isCPFExistent) {
@@ -147,7 +152,39 @@ public class PatientCommand {
         if (!shouldIgnoreCPF) this.validateCPF();
     }
 
-    public void updatePatient(Patient patient) throws Exception {
-        this.createPatient(patient, true);
+    public void updatePatient(PatientRequest request) throws Exception {
+        this.createPatient(request, true);
+    }
+
+    private PatientRequest convertFromPatientData(PatientData data){
+       return  PatientRequest.builder()
+                .withName(patientData.getName())
+                .withGenre(patientData.getGenre())
+                .withAge(patientData.getAge())
+                .withCpf(patientData.getCpf())
+                .withEmail(patientData.getEmail())
+                .withWeight(patientData.getWeight())
+                .withInsuranceNumber(patientData.getHealthInsuranceNumber())
+                .withPhoneNumber(patientData.getPhoneNumber())
+                .withAddress(patientData.getAddress())
+                .withFatherName(patientData.getFatherName())
+                .withMotherName(patientData.getMotherName())
+                .build();
+    }
+
+    private PatientData convertFromPatientRequest(PatientRequest request){
+        return PatientData.builder()
+                .withName(request.getName())
+                .withGenre(request.getGenre())
+                .withAge(request.getAge())
+                .withCpf(request.getCpf())
+                .withEmail(request.getEmail())
+                .withWeight(request.getWeight())
+                .withInsuranceNumber(request.getHealthInsuranceNumber())
+                .withPhoneNumber(request.getPhoneNumber())
+                .withAddress(request.getAddress())
+                .withFatherName(request.getFatherName())
+                .withMotherName(request.getMotherName())
+                .build();
     }
 }

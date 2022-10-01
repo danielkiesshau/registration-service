@@ -1,7 +1,7 @@
 package com.br.healthCare.registrationService.domain.controllers;
 
-import com.br.healthCare.registrationService.data.MedicalHistory;
 import com.br.healthCare.registrationService.domain.commands.RegistrationCommand;
+import com.br.healthCare.registrationService.requests.MedicalHistoryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +18,9 @@ public class RegistrationController {
     private RegistrationCommand registrationCommand;
 
     @PostMapping(path="")
-    public ResponseEntity createMedicalHistory (@RequestBody MedicalHistory medicalHistory) {
+    public ResponseEntity createMedicalHistory (@RequestBody MedicalHistoryRequest MedicalHistoryRequest) {
         try {
-            registrationCommand.createMedicalHistory(medicalHistory);
+            registrationCommand.createMedicalHistory(MedicalHistoryRequest);
         } catch (Exception error) {
             return ResponseEntity.status(400).body(error.getMessage());
         }
@@ -30,9 +30,9 @@ public class RegistrationController {
 
 
     @PutMapping
-    public ResponseEntity updateMedicalHistory(@RequestBody MedicalHistory medicalHistory) {
+    public ResponseEntity updateMedicalHistory(@RequestBody MedicalHistoryRequest MedicalHistoryRequest) {
         try {
-            registrationCommand.updateMedicalHistory(medicalHistory);
+            registrationCommand.updateMedicalHistory(MedicalHistoryRequest);
         } catch (Exception error) {
             return ResponseEntity.status(400).body(error.getMessage());
         }
@@ -42,21 +42,21 @@ public class RegistrationController {
     }
 
     @GetMapping(path="")
-    public @ResponseBody ResponseEntity<MedicalHistory> getMedicalHistory(
+    public @ResponseBody ResponseEntity<MedicalHistoryRequest> getMedicalHistory(
             @RequestParam(required = false) Integer patientId
     ) {
-        MedicalHistory medicalHistory = registrationCommand.getMedicalHistory(patientId);
+        MedicalHistoryRequest MedicalHistoryRequest = registrationCommand.getMedicalHistory(patientId);
 
-        if (medicalHistory == null) {
+        if (MedicalHistoryRequest == null) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.status(200).body(medicalHistory);
+        return ResponseEntity.status(200).body(MedicalHistoryRequest);
     }
 
     @GetMapping(path="/all")
-    public ResponseEntity<List<MedicalHistory>> getAllMedicalHistories() {
-        List<MedicalHistory> medicalHistories =  registrationCommand.getAllMedicalHistories();
+    public ResponseEntity<List<MedicalHistoryRequest>> getAllMedicalHistories() {
+        List<MedicalHistoryRequest> medicalHistories =  registrationCommand.getAllMedicalHistories();
 
         return ResponseEntity.status(200).body(medicalHistories);
     }

@@ -1,46 +1,46 @@
 package com.br.healthCare.registrationService.infra.medicalHistoryDatabase;
 
-import com.br.healthCare.registrationService.data.MedicalHistory;
+import com.br.healthCare.registrationService.infra.data.MedicalHistoryData;
 import com.br.healthCare.registrationService.infra.RegistrationDAO;
 import com.br.healthCare.registrationService.infra.helpers.IterableHelper;
-import com.br.healthCare.registrationService.infra.medicalHistoryDatabase.Repositories.MedicalHistoryRepository;
+import com.br.healthCare.registrationService.infra.medicalHistoryDatabase.medicalHistoryRepositories.MedicalHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class MedicalHistoryDao implements RegistrationDAO<MedicalHistory> {
-    public void setMedicalHistory(MedicalHistory medicalHistory) {
-        this.medicalHistory = medicalHistory;
+public class MedicalHistoryDao implements RegistrationDAO<MedicalHistoryData> {
+    public void setMedicalHistory(MedicalHistoryData medicalHistoryData) {
+        this.medicalHistoryData = medicalHistoryData;
     }
 
-    private MedicalHistory medicalHistory;
+    private MedicalHistoryData medicalHistoryData;
     @Autowired
     private MedicalHistoryRepository medicalHistoryRepository;
 
     @Override
     public void insertData(){
-        medicalHistoryRepository.save(medicalHistory);
+        medicalHistoryRepository.save(medicalHistoryData);
     }
 
     @Override
     public void updateData(){
-        medicalHistoryRepository.save(medicalHistory);
+        medicalHistoryRepository.save(medicalHistoryData);
     }
 
     @Override
-    public List<MedicalHistory> getData(){
-        Iterable<MedicalHistory> iterable = medicalHistoryRepository.findAll();
+    public List<MedicalHistoryData> getData(){
+        Iterable<MedicalHistoryData> iterable = medicalHistoryRepository.findAll();
         return new IterableHelper().toList(iterable);    }
 
     @Override
     public void deleteData(){
-        medicalHistoryRepository.delete(medicalHistory);
+        medicalHistoryRepository.delete(medicalHistoryData);
     }
 
-    public MedicalHistory findByPatientId(Integer patientId) {
-        MedicalHistory result = medicalHistoryRepository.findByPatientId(patientId);
+    public MedicalHistoryData findByPatientId(Integer patientId) {
+        MedicalHistoryData result = medicalHistoryRepository.findByPatientId(patientId);
         return result;
     }
 

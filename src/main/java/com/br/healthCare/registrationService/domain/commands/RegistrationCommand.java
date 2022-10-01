@@ -1,11 +1,11 @@
 package com.br.healthCare.registrationService.domain.commands;
 
-import com.br.healthCare.registrationService.data.MedicalHistory;
-import com.br.healthCare.registrationService.data.Patient;
-import com.br.healthCare.registrationService.data.medicalHistoryData.ContinuousUseMedications;
-import com.br.healthCare.registrationService.data.medicalHistoryData.RelativesDiseases;
-import com.br.healthCare.registrationService.data.medicalHistoryData.SurgicalProcedures;
-import com.br.healthCare.registrationService.infra.Patient.PatientDao;
+import com.br.healthCare.registrationService.infra.data.MedicalHistoryData;
+import com.br.healthCare.registrationService.infra.data.PatientData;
+import com.br.healthCare.registrationService.infra.data.medicalHistoryData.ContinuousUseMedicationsData;
+import com.br.healthCare.registrationService.infra.data.medicalHistoryData.RelativesDiseasesData;
+import com.br.healthCare.registrationService.infra.data.medicalHistoryData.SurgicalProceduresData;
+import com.br.healthCare.registrationService.infra.PatientDatabase.PatientDao;
 import com.br.healthCare.registrationService.infra.medicalHistoryDatabase.ContinuousUseMedicationDAO;
 import com.br.healthCare.registrationService.infra.medicalHistoryDatabase.MedicalHistoryDao;
 import com.br.healthCare.registrationService.infra.medicalHistoryDatabase.RelativesDiseasesDAO;
@@ -32,58 +32,58 @@ public class RegistrationCommand {
 
 
 
-    public List<MedicalHistory> getAllMedicalHistories() {
+    public List<MedicalHistoryData> getAllMedicalHistories() {
         return medicalHistoryDao.getData();
     }
 
-    public MedicalHistory getMedicalHistory(Integer patientId) {
+    public MedicalHistoryData getMedicalHistory(Integer patientId) {
         return medicalHistoryDao.findByPatientId(patientId);
     }
 
 
-    public void createMedicalHistory(MedicalHistory medicalHistory) throws Exception {
-        List<SurgicalProcedures> surgicalProcedures = medicalHistory.getSurgicalProcedures();
-        List<ContinuousUseMedications> continuousUseMedications = medicalHistory.getContinuousUseMedications();
-        List<RelativesDiseases> relativesDiseases = medicalHistory.getRelativesDiseases();
+    public void createMedicalHistory(MedicalHistoryData medicalHistoryData) throws Exception {
+        List<SurgicalProceduresData> surgicalProcedureData = medicalHistoryData.getSurgicalProcedures();
+        List<ContinuousUseMedicationsData> continuousUseMedicationData = medicalHistoryData.getContinuousUseMedications();
+        List<RelativesDiseasesData> relativesDiseaseData = medicalHistoryData.getRelativesDiseases();
 
-        this.validatePatientId(medicalHistory.getPatient().getId());
+        this.validatePatientId(medicalHistoryData.getPatient().getId());
 
-        if (!surgicalProcedures.isEmpty()) {
-            this.saveSurgicalProcedures(surgicalProcedures);
+        if (!surgicalProcedureData.isEmpty()) {
+            this.saveSurgicalProcedures(surgicalProcedureData);
         }
-        if (!continuousUseMedications.isEmpty()) {
-            this.saveContinuousUseMedications(continuousUseMedications);
+        if (!continuousUseMedicationData.isEmpty()) {
+            this.saveContinuousUseMedications(continuousUseMedicationData);
         }
-        if (!relativesDiseases.isEmpty()) {
-            this.saveRelativesDiseases(relativesDiseases);
+        if (!relativesDiseaseData.isEmpty()) {
+            this.saveRelativesDiseases(relativesDiseaseData);
         }
 
-        this.saveMedicalHistory(medicalHistory);
+        this.saveMedicalHistory(medicalHistoryData);
     }
 
 
-    public void saveMedicalHistory(MedicalHistory medicalHistory) {
-        medicalHistoryDao.setMedicalHistory(medicalHistory);
+    public void saveMedicalHistory(MedicalHistoryData medicalHistoryData) {
+        medicalHistoryDao.setMedicalHistory(medicalHistoryData);
         medicalHistoryDao.insertData();
 
     }
 
-    public void saveSurgicalProcedures(List<SurgicalProcedures> surgicalProcedures) {
-        for (SurgicalProcedures procedure : surgicalProcedures) {
+    public void saveSurgicalProcedures(List<SurgicalProceduresData> surgicalProcedureData) {
+        for (SurgicalProceduresData procedure : surgicalProcedureData) {
             surgicalProceduresDAO.setSurgicalProcedures(procedure);
             surgicalProceduresDAO.insertData();
         }
     }
 
-    public void saveContinuousUseMedications(List<ContinuousUseMedications> continuousUseMedications) {
-        for (ContinuousUseMedications medication : continuousUseMedications) {
+    public void saveContinuousUseMedications(List<ContinuousUseMedicationsData> continuousUseMedicationData) {
+        for (ContinuousUseMedicationsData medication : continuousUseMedicationData) {
             continuousUseMedicationDAO.setContinuousUseMedications(medication);
             continuousUseMedicationDAO.insertData();
         }
     }
 
-    public void saveRelativesDiseases(List<RelativesDiseases> relativesDiseases) {
-        for (RelativesDiseases disease : relativesDiseases) {
+    public void saveRelativesDiseases(List<RelativesDiseasesData> relativesDiseaseData) {
+        for (RelativesDiseasesData disease : relativesDiseaseData) {
             relativesDiseasesDAO.setRelativesDiseases(disease);
             relativesDiseasesDAO.insertData();
         }
@@ -91,25 +91,25 @@ public class RegistrationCommand {
 
 
     private void validatePatientId (Integer patientId) throws Exception {
-        Optional<Patient> patient = patientDao.findById(patientId);
+        Optional<PatientData> patient = patientDao.findById(patientId);
         if(!patient.isEmpty()){
             return;
         }
         throw new Exception("Patient not found");
     }
 
-    public void updateMedicalHistory(MedicalHistory medicalHistory) throws Exception {
-        this.createMedicalHistory(medicalHistory);
+    public void updateMedicalHistory(MedicalHistoryData medicalHistoryData) throws Exception {
+        this.createMedicalHistory(medicalHistoryData);
     }
 
-    private void deleteMedicalHistory(MedicalHistory medicalHistory) {
-        medicalHistoryDao.setMedicalHistory(medicalHistory);
+    private void deleteMedicalHistory(MedicalHistoryData medicalHistoryData) {
+        medicalHistoryDao.setMedicalHistory(medicalHistoryData);
         medicalHistoryDao.deleteData();
     }
     public void removeMedicalHistory(Integer id)  {
-        MedicalHistory medicalHistory = new MedicalHistory();
-        medicalHistory.setId(id);
+        MedicalHistoryData medicalHistoryData = new MedicalHistoryData();
+        medicalHistoryData.setId(id);
 
-       this.deleteMedicalHistory(medicalHistory);
+       this.deleteMedicalHistory(medicalHistoryData);
     }
 }

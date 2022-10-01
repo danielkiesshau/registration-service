@@ -1,12 +1,10 @@
-package com.br.healthCare.registrationService.data.medicalHistoryData;
-
-import com.br.healthCare.registrationService.data.MedicalHistory;
+package com.br.healthCare.registrationService.infra.data.medicalHistoryData;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class SurgicalProcedures {
+public class SurgicalProceduresData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -27,7 +25,7 @@ public class SurgicalProcedures {
         return procedureName;
     }
 
-    public SurgicalProcedures setProcedureName(String procedureName) {
+    public SurgicalProceduresData setProcedureName(String procedureName) {
         this.procedureName = procedureName;
         return this;
     }
@@ -36,7 +34,7 @@ public class SurgicalProcedures {
         return complications;
     }
 
-    public SurgicalProcedures setComplications(String complications) {
+    public SurgicalProceduresData setComplications(String complications) {
         this.complications = complications;
         return this;
     }
@@ -45,7 +43,7 @@ public class SurgicalProcedures {
         return date;
     }
 
-    public SurgicalProcedures setDate(Date date) {
+    public SurgicalProceduresData setDate(Date date) {
         this.date = date;
         return this;
     }

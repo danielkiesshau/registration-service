@@ -1,9 +1,9 @@
 package com.br.healthCare.registrationService.infra.medicalHistoryDatabase;
 
-import com.br.healthCare.registrationService.data.medicalHistoryData.SurgicalProcedures;
+import com.br.healthCare.registrationService.infra.data.medicalHistoryData.SurgicalProceduresData;
 import com.br.healthCare.registrationService.infra.RegistrationDAO;
 import com.br.healthCare.registrationService.infra.helpers.IterableHelper;
-import com.br.healthCare.registrationService.infra.medicalHistoryDatabase.Repositories.SurgicalProceduresRepository;
+import com.br.healthCare.registrationService.infra.medicalHistoryDatabase.medicalHistoryRepositories.SurgicalProceduresRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,37 +11,37 @@ import java.util.List;
 
 @Service
 public class SurgicalProceduresDAO implements RegistrationDAO {
-    private SurgicalProcedures surgicalProcedures;
+    private SurgicalProceduresData surgicalProceduresData;
 
     @Autowired
     private SurgicalProceduresRepository surgicalProceduresRepository;
     @Override
     public void insertData() {
-        surgicalProceduresRepository.save(surgicalProcedures);
+        surgicalProceduresRepository.save(surgicalProceduresData);
     }
 
     @Override
     public List getData() {
-        Iterable<SurgicalProcedures> iterable = surgicalProceduresRepository.findAll();
+        Iterable<SurgicalProceduresData> iterable = surgicalProceduresRepository.findAll();
         return new IterableHelper().toList(iterable);
     }
 
     @Override
     public void updateData() {
-        surgicalProceduresRepository.save(surgicalProcedures);
+        surgicalProceduresRepository.save(surgicalProceduresData);
     }
 
     @Override
     public void deleteData() {
-        surgicalProceduresRepository.delete(surgicalProcedures);
+        surgicalProceduresRepository.delete(surgicalProceduresData);
     }
 
-    public List<SurgicalProcedures> findByMedicalHistoryId(Integer medicalHistoryId) {
-        List<SurgicalProcedures> result = surgicalProceduresRepository.findByMedicalHistoryId(medicalHistoryId);
+    public List<SurgicalProceduresData> findByMedicalHistoryId(Integer medicalHistoryId) {
+        List<SurgicalProceduresData> result = surgicalProceduresRepository.findByMedicalHistoryId(medicalHistoryId);
         return result;
     }
 
-    public void setSurgicalProcedures(SurgicalProcedures surgicalProcedures) {
-        this.surgicalProcedures = surgicalProcedures;
+    public void setSurgicalProcedures(SurgicalProceduresData surgicalProceduresData) {
+        this.surgicalProceduresData = surgicalProceduresData;
     }
 }

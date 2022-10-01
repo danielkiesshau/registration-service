@@ -1,13 +1,13 @@
-package com.br.healthCare.registrationService.data;
+package com.br.healthCare.registrationService.infra.data;
 
-import com.br.healthCare.registrationService.data.medicalHistoryData.ContinuousUseMedications;
-import com.br.healthCare.registrationService.data.medicalHistoryData.RelativesDiseases;
-import com.br.healthCare.registrationService.data.medicalHistoryData.SurgicalProcedures;
+import com.br.healthCare.registrationService.infra.data.medicalHistoryData.ContinuousUseMedicationsData;
+import com.br.healthCare.registrationService.infra.data.medicalHistoryData.RelativesDiseasesData;
+import com.br.healthCare.registrationService.infra.data.medicalHistoryData.SurgicalProceduresData;
 
 import javax.persistence.*;
 import java.util.List;
 @Entity
-public class MedicalHistory {
+public class MedicalHistoryData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
    private Integer id;
@@ -16,31 +16,31 @@ public class MedicalHistory {
     @ElementCollection
     private List<String> limitations;
     private String bloodType;
-    private List<SurgicalProcedures> surgicalProcedures;
-    private List<ContinuousUseMedications> continuousUseMedications;
+    private List<SurgicalProceduresData> surgicalProcedureData;
+    private List<ContinuousUseMedicationsData> continuousUseMedicationData;
     private String allergies;
     private boolean isSmoker;
     private boolean isPregnant;
-    private List<RelativesDiseases> relativesDiseases;
+    private List<RelativesDiseasesData> relativesDiseaseData;
 
     @OneToOne
     @JoinColumn(name="patient_id",  foreignKey = @ForeignKey(name = "patient_id"))
-    private Patient patient;
+    private PatientData patient;
 
     public Integer getId() {
         return id;
     }
 
-    public MedicalHistory setId(Integer id) {
+    public MedicalHistoryData setId(Integer id) {
         this.id = id;
         return this;
     }
 
-    public Patient getPatient() {
+    public PatientData getPatient() {
         return patient;
     }
 
-    public void setPatient(Patient patientId) {
+    public void setPatient(PatientData patientId) {
         this.patient = patient;
     }
 
@@ -70,22 +70,22 @@ public class MedicalHistory {
 
     @OneToMany
     @JoinColumn(name="surgicalProcedures_id", nullable = false)
-    public List<SurgicalProcedures> getSurgicalProcedures() {
-        return surgicalProcedures;
+    public List<SurgicalProceduresData> getSurgicalProcedures() {
+        return surgicalProcedureData;
     }
 
-    public void setSurgicalProcedures(List<SurgicalProcedures> surgicalProcedures) {
-        this.surgicalProcedures = surgicalProcedures;
+    public void setSurgicalProcedures(List<SurgicalProceduresData> surgicalProcedureData) {
+        this.surgicalProcedureData = surgicalProcedureData;
     }
 
     @OneToMany
     @JoinColumn(name="continuousUseMedications_id", nullable = false)
-    public List<ContinuousUseMedications> getContinuousUseMedications() {
-        return continuousUseMedications;
+    public List<ContinuousUseMedicationsData> getContinuousUseMedications() {
+        return continuousUseMedicationData;
     }
 
-    public void setContinuousUseMedications(List<ContinuousUseMedications> continuousUseMedications) {
-        this.continuousUseMedications = continuousUseMedications;
+    public void setContinuousUseMedications(List<ContinuousUseMedicationsData> continuousUseMedicationData) {
+        this.continuousUseMedicationData = continuousUseMedicationData;
     }
 
     public String getAllergies() {
@@ -114,12 +114,12 @@ public class MedicalHistory {
 
     @OneToMany
     @JoinColumn(name="relativesDiseases_id", nullable = false)
-    public List<RelativesDiseases> getRelativesDiseases() {
-        return relativesDiseases;
+    public List<RelativesDiseasesData> getRelativesDiseases() {
+        return relativesDiseaseData;
     }
 
 
-    public void setRelativesDiseases(List<RelativesDiseases> relativesDiseases) {
-        this.relativesDiseases = relativesDiseases;
+    public void setRelativesDiseases(List<RelativesDiseasesData> relativesDiseaseData) {
+        this.relativesDiseaseData = relativesDiseaseData;
     }
 }

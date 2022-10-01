@@ -1,11 +1,9 @@
-package com.br.healthCare.registrationService.data.medicalHistoryData;
-
-import com.br.healthCare.registrationService.data.MedicalHistory;
+package com.br.healthCare.registrationService.infra.data.medicalHistoryData;
 
 import javax.persistence.*;
 
 @Entity
-public class RelativesDiseases {
+public class RelativesDiseasesData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
