@@ -40,4 +40,8 @@ public class ContinuousUseMedicationDAO implements RegistrationDAO {
         List<ContinuousUseMedications> result = continuousUseMedicationRepository.findByMedicalHistoryId(continuousUseMedications.getMedicalHistoryId());
         return result;
     }
+
+    public void setContinuousUseMedications(ContinuousUseMedications continuousUseMedications) {
+        this.continuousUseMedications = continuousUseMedications;
+    }
 }

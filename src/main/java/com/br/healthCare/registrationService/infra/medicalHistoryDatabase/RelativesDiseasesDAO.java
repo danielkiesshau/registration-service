@@ -39,4 +39,8 @@ public class RelativesDiseasesDAO implements RegistrationDAO {
         List<RelativesDiseases> result = relativesDiseasesRepository.findByMedicalHistoryId(relativesDiseases.getMedicalHistoryId());
         return result;
     }
+
+    public void setRelativesDiseases(RelativesDiseases relativesDiseases) {
+        this.relativesDiseases = relativesDiseases;
+    }
 }

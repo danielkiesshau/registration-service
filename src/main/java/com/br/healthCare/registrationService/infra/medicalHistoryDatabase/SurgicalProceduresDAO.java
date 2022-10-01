@@ -40,4 +40,8 @@ public class SurgicalProceduresDAO implements RegistrationDAO {
         List<SurgicalProcedures> result = surgicalProceduresRepository.findByMedicalHistoryId(surgicalProcedures.getMedicalHistoryId());
         return result;
     }
+
+    public void setSurgicalProcedures(SurgicalProcedures surgicalProcedures) {
+        this.surgicalProcedures = surgicalProcedures;
+    }
 }

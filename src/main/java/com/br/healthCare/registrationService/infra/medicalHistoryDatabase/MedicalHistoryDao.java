@@ -11,6 +11,10 @@ import java.util.List;
 
 @Service
 public class MedicalHistoryDao implements RegistrationDAO<MedicalHistory> {
+    public void setMedicalHistory(MedicalHistory medicalHistory) {
+        this.medicalHistory = medicalHistory;
+    }
+
     private MedicalHistory medicalHistory;
     @Autowired
     private MedicalHistoryRepository medicalHistoryRepository;
@@ -35,8 +39,11 @@ public class MedicalHistoryDao implements RegistrationDAO<MedicalHistory> {
         medicalHistoryRepository.save(medicalHistory);
     }
 
-    public List<MedicalHistory> findByPatientId() {
-        List<MedicalHistory> result = medicalHistoryRepository.findByPatientId(medicalHistory.getPatientId());
+    public MedicalHistory findByPatientId(Integer patientId) {
+        MedicalHistory result = medicalHistoryRepository.findByPatientId(patientId);
         return result;
     }
+
+
+
 }

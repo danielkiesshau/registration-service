@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface MedicalHistoryRepository extends CrudRepository<MedicalHistory, Integer> {
     @Query(value = "SELECT * FROM medicalHistory WHERE patientId = ?1", nativeQuery = true)
-    List<MedicalHistory> findByPatientId(int id);
+    MedicalHistory findByPatientId(int id);
 
 }
