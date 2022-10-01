@@ -16,15 +16,19 @@ public class MedicalHistory {
     @ElementCollection
     private List<String> limitations;
     private String bloodType;
+    @ElementCollection
     private List<SurgicalProcedures> surgicalProcedures;
+    @ElementCollection
     private List<ContinuousUseMedications> continuousUseMedications;
     private String allergies;
     private boolean isSmoker;
     private boolean isPregnant;
+    @ElementCollection
     private List<RelativesDiseases> relativesDiseases;
+
     @OneToOne
-    @JoinColumn(name = "patient_id", foreignKey = @ForeignKey(name = "id"))
-    private Patient patientId;
+    @JoinColumn(name="patient_id",  foreignKey = @ForeignKey(name = "patient_id"))
+    private Patient patient;
 
     public Integer getId() {
         return id;
@@ -35,12 +39,12 @@ public class MedicalHistory {
         return this;
     }
 
-    public int getPatientId() {
-        return patientId.getId();
+    public Patient getPatient() {
+        return patient;
     }
 
-    public void setPatientId(Patient patient) {
-        this.patientId = patientId;
+    public void setPatient(Patient patientId) {
+        this.patient = patient;
     }
 
     public List<String> getExistingDiseases() {

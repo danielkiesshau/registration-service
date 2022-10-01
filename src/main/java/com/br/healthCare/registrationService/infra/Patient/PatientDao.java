@@ -82,7 +82,7 @@ public class PatientDao implements RegistrationDAO<Patient> {
         return patientRepository.findByCPF(patient.getCpf());
     }
 
-    public Optional<Patient> findById() {
-        return patientRepository.findById(patient.getId());
+    public Optional<Patient> findById(Integer patientId) {
+        return patientRepository.findById(patientId);
     }
 }

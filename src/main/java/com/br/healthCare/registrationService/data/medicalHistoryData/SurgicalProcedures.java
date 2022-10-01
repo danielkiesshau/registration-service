@@ -13,9 +13,7 @@ public class SurgicalProcedures {
     private String procedureName;
     private String complications;
     private Date date;
-    @OneToOne
-    @JoinColumn(name = "medicalHistory_id", foreignKey = @ForeignKey(name = "id"))
-    private MedicalHistory medicalHistoryId;
+
 
     public Integer getId() {
         return id;
@@ -23,14 +21,6 @@ public class SurgicalProcedures {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public int getMedicalHistoryId() {
-        return medicalHistoryId.getId();
-    }
-
-    public void setMedicalHistoryId(MedicalHistory medicalHistoryId) {
-        this.medicalHistoryId = medicalHistoryId;
     }
 
     public String getProcedureName() {

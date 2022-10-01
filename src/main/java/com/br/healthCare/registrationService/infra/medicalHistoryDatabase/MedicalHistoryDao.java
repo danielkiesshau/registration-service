@@ -36,7 +36,7 @@ public class MedicalHistoryDao implements RegistrationDAO<MedicalHistory> {
 
     @Override
     public void deleteData(){
-        medicalHistoryRepository.save(medicalHistory);
+        medicalHistoryRepository.delete(medicalHistory);
     }
 
     public MedicalHistory findByPatientId(Integer patientId) {

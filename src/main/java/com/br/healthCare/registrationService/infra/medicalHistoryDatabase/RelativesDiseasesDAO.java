@@ -35,8 +35,8 @@ public class RelativesDiseasesDAO implements RegistrationDAO {
             relativesDiseasesRepository.delete(relativesDiseases);
     }
 
-    public List<RelativesDiseases> findByMedicalHistoryId() {
-        List<RelativesDiseases> result = relativesDiseasesRepository.findByMedicalHistoryId(relativesDiseases.getMedicalHistoryId());
+    public List<RelativesDiseases> findByMedicalHistoryId(Integer medicalHistoryId) {
+        List<RelativesDiseases> result = relativesDiseasesRepository.findByMedicalHistoryId(medicalHistoryId);
         return result;
     }
 

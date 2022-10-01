@@ -12,9 +12,7 @@ public class RelativesDiseases {
     private Integer id;
     private String kinshipDegree;
     private String diseaseName;
-    @OneToOne
-    @JoinColumn(name = "medicalHistory_id", foreignKey = @ForeignKey(name = "id"))
-    private MedicalHistory medicalHistoryId;
+
 
     public Integer getId() {
         return id;
@@ -32,13 +30,6 @@ public class RelativesDiseases {
         this.diseaseName = diseaseName;
     }
 
-    public int getMedicalHistoryId() {
-        return medicalHistoryId.getId();
-    }
-
-    public void setMedicalHistoryId(MedicalHistory medicalHistoryId) {
-        this.medicalHistoryId = medicalHistoryId;
-    }
 
     public String getKinshipDegree() {
         return kinshipDegree;
