@@ -1,6 +1,7 @@
 # Registration Service
 CRUD application to manage patient and medical history.
 
+Implemented with @GuiDicaprinus
 
 #### Applied Design Patterns
 1. DAO - Access to database data
