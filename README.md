@@ -2,6 +2,16 @@
 CRUD application to manage patient and medical history.
 
 
+#### Applied Design Patterns
+1. DAO - Access to database data
+2. Repository - Database queries
+3. Controller - Request/Response handling
+4. Command - Business Rules
+5. Builder - helps to build other classes (i.e: PatientData -> Patient, MedicalHistoryData -> MedicalHistory...)
+5. SOLID
+6. Scaffold inspired by Clean Architecture
+
+
 ## Steps to Run
 
 1. Run MySQL server
@@ -25,15 +35,6 @@ Swagger is under [http://localhost:8080/swagger-ui/index.html](http://localhost:
 
 It will show all CRUD endpoints for Patient and MedicalHistory
 
-
-#### Applied Design Patterns
-1. DAO - Access to database data
-2. Repository - Database queries
-3. Controller - Request/Response handling
-4. Command - Business Rules
-5. Builder - helps to build other classes (i.e: PatientData -> Patient, MedicalHistoryData -> MedicalHistory...)
-5. SOLID
-6. Scaffold inspired by Clean Architecture
 
 
 ### Useful commands
