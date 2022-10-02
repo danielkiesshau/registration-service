@@ -4,24 +4,15 @@ import java.util.Date;
 
 public class SurgicalProcedures {
 
-    private Integer id;
     private String procedureName;
     private String complications;
     private Date date;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getProcedureName() {
         return procedureName;
     }
 
-    public void setProcedureName(String procedureName) {
+    private void setProcedureName(String procedureName) {
         this.procedureName = procedureName;
     }
 
@@ -29,7 +20,7 @@ public class SurgicalProcedures {
         return complications;
     }
 
-    public void setComplications(String complications) {
+    private void setComplications(String complications) {
         this.complications = complications;
     }
 
@@ -37,7 +28,41 @@ public class SurgicalProcedures {
         return date;
     }
 
-    public void setDate(Date date) {
+    private void setDate(Date date) {
         this.date = date;
+    }
+
+    public Builder builder(){
+        return new Builder();
+    }
+
+    public static class Builder{
+        private String procedureName;
+        private String complications;
+        private Date date;
+
+        public Builder withProcedureName(String procedureName){
+            this.procedureName = procedureName;
+            return this;
+        }
+
+        public Builder withComplications(String complications){
+            this.complications = complications;
+            return this;
+        }
+
+        public Builder withDate(Date date){
+            this.date = date;
+            return this;
+        }
+
+        public SurgicalProcedures build(){
+            SurgicalProcedures response = new SurgicalProcedures();
+            response.setProcedureName(this.procedureName);
+            response.setComplications(this.complications);
+            response.setDate(this.date);
+
+            return response;
+        }
     }
 }

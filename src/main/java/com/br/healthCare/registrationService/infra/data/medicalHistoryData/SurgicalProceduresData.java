@@ -1,5 +1,7 @@
 package com.br.healthCare.registrationService.infra.data.medicalHistoryData;
 
+import com.br.healthCare.registrationService.requests.requestComplements.SurgicalProcedures;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -46,5 +48,39 @@ public class SurgicalProceduresData {
     public SurgicalProceduresData setDate(Date date) {
         this.date = date;
         return this;
+    }
+
+    public Builder builder(){
+        return new Builder();
+    }
+
+    public static class Builder{
+        private String procedureName;
+        private String complications;
+        private Date date;
+
+        public Builder withProcedureName(String procedureName){
+            this.procedureName = procedureName;
+            return this;
+        }
+
+        public Builder withComplications(String complications){
+            this.complications = complications;
+            return this;
+        }
+
+        public Builder withDate(Date date){
+            this.date = date;
+            return this;
+        }
+
+        public SurgicalProceduresData build(){
+            SurgicalProceduresData response = new SurgicalProceduresData();
+            response.setProcedureName(this.procedureName);
+            response.setComplications(this.complications);
+            response.setDate(this.date);
+
+            return response;
+        }
     }
 }

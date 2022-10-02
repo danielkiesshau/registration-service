@@ -12,15 +12,15 @@ import java.util.List;
 
 @Controller
 @RequestMapping(path="/medical-history")
-public class RegistrationController {
+public class MedicalHistoryControler {
 
     @Autowired
     private RegistrationCommand registrationCommand;
 
     @PostMapping(path="")
-    public ResponseEntity createMedicalHistory (@RequestBody MedicalHistoryRequest MedicalHistoryRequest) {
+    public ResponseEntity createMedicalHistory (@RequestBody MedicalHistoryRequest request) {
         try {
-            registrationCommand.createMedicalHistory(MedicalHistoryRequest);
+            registrationCommand.createMedicalHistory(request);
         } catch (Exception error) {
             return ResponseEntity.status(400).body(error.getMessage());
         }
@@ -30,9 +30,9 @@ public class RegistrationController {
 
 
     @PutMapping
-    public ResponseEntity updateMedicalHistory(@RequestBody MedicalHistoryRequest MedicalHistoryRequest) {
+    public ResponseEntity updateMedicalHistory(@RequestBody MedicalHistoryRequest request) {
         try {
-            registrationCommand.updateMedicalHistory(MedicalHistoryRequest);
+            registrationCommand.updateMedicalHistory(request);
         } catch (Exception error) {
             return ResponseEntity.status(400).body(error.getMessage());
         }

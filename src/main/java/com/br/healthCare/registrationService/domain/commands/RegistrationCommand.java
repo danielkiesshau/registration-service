@@ -10,6 +10,7 @@ import com.br.healthCare.registrationService.infra.medicalHistoryDatabase.Contin
 import com.br.healthCare.registrationService.infra.medicalHistoryDatabase.MedicalHistoryDao;
 import com.br.healthCare.registrationService.infra.medicalHistoryDatabase.RelativesDiseasesDAO;
 import com.br.healthCare.registrationService.infra.medicalHistoryDatabase.SurgicalProceduresDAO;
+import com.br.healthCare.registrationService.requests.MedicalHistoryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,12 +42,12 @@ public class RegistrationCommand {
     }
 
 
-    public void createMedicalHistory(MedicalHistoryData medicalHistoryData) throws Exception {
-        List<SurgicalProceduresData> surgicalProcedureData = medicalHistoryData.getSurgicalProcedures();
-        List<ContinuousUseMedicationsData> continuousUseMedicationData = medicalHistoryData.getContinuousUseMedications();
-        List<RelativesDiseasesData> relativesDiseaseData = medicalHistoryData.getRelativesDiseases();
+    public void createMedicalHistory(MedicalHistoryRequest request) throws Exception {
+        List<SurgicalProceduresData> surgicalProcedureData = request.getSurgicalProcedures();
+        List<ContinuousUseMedicationsData> continuousUseMedicationData = request.getContinuousUseMedications();
+        List<RelativesDiseasesData> relativesDiseaseData = request.getRelativesDiseases();
 
-        this.validatePatientId(medicalHistoryData.getPatient().getId());
+        this.validatePatientId(request.getPatient().getId());
 
         if (!surgicalProcedureData.isEmpty()) {
             this.saveSurgicalProcedures(surgicalProcedureData);
@@ -98,8 +99,8 @@ public class RegistrationCommand {
         throw new Exception("Patient not found");
     }
 
-    public void updateMedicalHistory(MedicalHistoryData medicalHistoryData) throws Exception {
-        this.createMedicalHistory(medicalHistoryData);
+    public void updateMedicalHistory(MedicalHistoryRequest request) throws Exception {
+        this.createMedicalHistory(request);
     }
 
     private void deleteMedicalHistory(MedicalHistoryData medicalHistoryData) {

@@ -39,7 +39,6 @@ public class PatientData {
 
     @OneToOne
     @JoinColumn(name = "address_id")
-
     @NotNull
     private PatientAddressData address;
 

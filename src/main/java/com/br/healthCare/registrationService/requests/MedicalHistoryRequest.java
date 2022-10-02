@@ -10,12 +10,12 @@ public class MedicalHistoryRequest {
     public List<String> existingDiseases;
     public List<String> limitations;
     public String bloodType;
-    public List<SurgicalProcedures> surgicalProcedureData;
-    public List<ContinuousUseMedications> continuousUseMedicationData;
+    public List<SurgicalProcedures> surgicalProcedures;
+    public List<ContinuousUseMedications> continuousUseMedications;
     public String allergies;
     public boolean isSmoker;
     public boolean isPregnant;
-    public List<RelativesDiseases> relativesDiseaseData;
+    public List<RelativesDiseases> relativesDiseases;
 
     public List<String> getExistingDiseases() {
         return existingDiseases;
@@ -41,20 +41,20 @@ public class MedicalHistoryRequest {
         this.bloodType = bloodType;
     }
 
-    public List<SurgicalProcedures> getSurgicalProcedureData() {
-        return surgicalProcedureData;
+    public List<SurgicalProcedures> getSurgicalProcedures() {
+        return surgicalProcedures;
     }
 
-    public void setSurgicalProcedureData(List<SurgicalProcedures> surgicalProcedureData) {
-        this.surgicalProcedureData = surgicalProcedureData;
+    public void setSurgicalProcedures(List<SurgicalProcedures> surgicalProcedures) {
+        this.surgicalProcedures = surgicalProcedures;
     }
 
-    public List<ContinuousUseMedications> getContinuousUseMedicationData() {
-        return continuousUseMedicationData;
+    public List<ContinuousUseMedications> getContinuousUseMedications() {
+        return continuousUseMedications;
     }
 
-    public void setContinuousUseMedicationData(List<ContinuousUseMedications> continuousUseMedicationData) {
-        this.continuousUseMedicationData = continuousUseMedicationData;
+    public void setContinuousUseMedications(List<ContinuousUseMedications> continuousUseMedication) {
+        this.continuousUseMedications = continuousUseMedication;
     }
 
     public String getAllergies() {
@@ -81,11 +81,11 @@ public class MedicalHistoryRequest {
         isPregnant = pregnant;
     }
 
-    public List<RelativesDiseases> getRelativesDiseaseData() {
-        return relativesDiseaseData;
+    public List<RelativesDiseases> getRelativesDiseases() {
+        return relativesDiseases;
     }
 
-    public void setRelativesDiseaseData(List<RelativesDiseases> relativesDiseaseData) {
-        this.relativesDiseaseData = relativesDiseaseData;
+    public void setRelativesDisease(List<RelativesDiseases> relativesDiseases) {
+        this.relativesDiseases = relativesDiseases;
     }
 }

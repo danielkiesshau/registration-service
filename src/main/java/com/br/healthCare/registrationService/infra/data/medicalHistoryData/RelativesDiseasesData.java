@@ -1,5 +1,7 @@
 package com.br.healthCare.registrationService.infra.data.medicalHistoryData;
 
+import com.br.healthCare.registrationService.requests.requestComplements.RelativesDiseases;
+
 import javax.persistence.*;
 
 @Entity
@@ -35,5 +37,32 @@ public class RelativesDiseasesData {
 
     public void setKinshipDegree(String kinshipDegree) {
         this.kinshipDegree = kinshipDegree;
+    }
+
+    public Builder builder(){
+        return new Builder();
+    }
+
+    public static class Builder{
+        private String kinshipDegree;
+        private String diseaseName;
+
+        public Builder withKinshipDegree(String kinshipDegree){
+            this.kinshipDegree = kinshipDegree;
+            return this;
+        }
+
+        public Builder withDiseaseName(String diseaseName){
+            this.diseaseName = diseaseName;
+            return this;
+        }
+
+        public RelativesDiseasesData build(){
+            RelativesDiseasesData response = new RelativesDiseasesData();
+            response.setDiseaseName(this.diseaseName);
+            response.setKinshipDegree(this.kinshipDegree);
+
+            return response;
+        }
     }
 }
