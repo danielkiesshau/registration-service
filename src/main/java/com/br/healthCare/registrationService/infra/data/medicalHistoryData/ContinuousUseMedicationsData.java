@@ -1,6 +1,8 @@
 package com.br.healthCare.registrationService.infra.data.medicalHistoryData;
 
 import com.br.healthCare.registrationService.infra.data.PatientData;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -16,8 +18,9 @@ public class ContinuousUseMedicationsData {
     private String usageFrequency;
     private Double medicationDoseMg;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "patient_data_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private PatientData patient;
 
 
@@ -84,6 +87,7 @@ public class ContinuousUseMedicationsData {
         private String usageFrequency;
         private Double medicationDoseMg;
         public Integer patientId;
+        private Integer id;
 
         public Builder withMedicationName(String medicationName){
             this.medicationName = medicationName;
@@ -111,6 +115,11 @@ public class ContinuousUseMedicationsData {
         }
 
 
+        public Builder withId(Integer id){
+            this.id = id;
+            return this;
+        }
+
         public ContinuousUseMedicationsData build(){
             ContinuousUseMedicationsData response = new ContinuousUseMedicationsData();
             response.setMedicationName(this.medicationName);
@@ -120,6 +129,9 @@ public class ContinuousUseMedicationsData {
             PatientData patientData = new PatientData();
             patientData.setId(this.patientId);
             response.setPatient(patientData);
+            if(this.id != null && this.id !=0) {
+                response.setId(this.id);
+            }
 
             return response;
         }

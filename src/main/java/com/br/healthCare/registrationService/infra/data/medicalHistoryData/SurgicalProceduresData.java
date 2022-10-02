@@ -1,6 +1,8 @@
 package com.br.healthCare.registrationService.infra.data.medicalHistoryData;
 
 import com.br.healthCare.registrationService.infra.data.PatientData;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -16,8 +18,9 @@ public class SurgicalProceduresData {
     private String complications;
     private Date date;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "patient_data_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private PatientData patient;
 
     public Integer getId() {
@@ -72,6 +75,7 @@ public class SurgicalProceduresData {
         private String complications;
         private Date date;
         public Integer patientId;
+        private Integer id;
 
 
         public Builder withProcedureName(String procedureName){
@@ -94,6 +98,11 @@ public class SurgicalProceduresData {
             return this;
         }
 
+        public Builder withId(Integer id){
+            this.id = id;
+            return this;
+        }
+
 
         public SurgicalProceduresData build(){
             SurgicalProceduresData response = new SurgicalProceduresData();
@@ -103,7 +112,9 @@ public class SurgicalProceduresData {
             PatientData patientData = new PatientData();
             patientData.setId(this.patientId);
             response.setPatient(patientData);
-
+            if(this.id != null && this.id !=0) {
+                response.setId(this.id);
+            }
             return response;
         }
     }

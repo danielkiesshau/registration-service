@@ -41,8 +41,7 @@ public class MedicalHistoryControler {
 
     @GetMapping(path="")
     public @ResponseBody ResponseEntity<MedicalHistoryRequest> getMedicalHistory(
-            @RequestParam(required = false) Integer patientId
-    ) {
+            @RequestParam(required = false) Integer patientId) {
         MedicalHistoryRequest MedicalHistoryRequest = medicalHistoryCommand.getMedicalHistory(patientId);
 
         if (MedicalHistoryRequest == null) {
@@ -53,9 +52,9 @@ public class MedicalHistoryControler {
     }
 
     @DeleteMapping(path="")
-    public @ResponseBody ResponseEntity removeMedicalHistory(@RequestParam Integer id) {
+    public @ResponseBody ResponseEntity removeMedicalHistory(@RequestParam Integer patient_id) {
         try {
-            medicalHistoryCommand.removeMedicalHistory(id);
+            medicalHistoryCommand.removeMedicalHistory(patient_id);
         } catch (EmptyResultDataAccessException error) {
             return ResponseEntity.status(400).body("medical history not found");
         } catch (Exception error) {

@@ -44,6 +44,8 @@ public class MedicalHistoryDao implements RegistrationDAO<MedicalHistoryData> {
         return result;
     }
 
-
+    public void deleteByPatientId() {
+         medicalHistoryRepository.deleteByPatientId(medicalHistoryData.getPatient().getId());
+    }
 
 }

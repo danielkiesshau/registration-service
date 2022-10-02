@@ -4,6 +4,8 @@ package com.br.healthCare.registrationService.infra.data;
 
 import com.br.healthCare.registrationService.infra.data.pacientData.PatientAddressData;
 import com.br.healthCare.registrationService.requests.requestComplements.PatientAddress;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -39,7 +41,7 @@ public class PatientData {
     private String motherName;
 
     @OneToOne
-    @JoinColumn(name = "address_data_id")
+    @JoinColumn(name = "patient_address_data_id")
     @NotNull
     private PatientAddressData address;
 
@@ -156,6 +158,7 @@ public class PatientData {
         private String fatherName;
         private String motherName;
         private PatientAddressData patientAddress;
+        private Integer id;
 
         public Builder withName(String name){
             this.name=name;
@@ -172,13 +175,13 @@ public class PatientData {
             return this;
         }
 
-        public  Builder withCpf(String weight){
-            this.weight=weight;
+        public  Builder withCpf(String cpf){
+            this.cpf=cpf;
             return this;
         }
 
-        public  Builder withWeight(String cpf){
-            this.cpf=cpf;
+        public  Builder withWeight(String weight){
+            this.weight=weight;
             return this;
         }
 
@@ -218,6 +221,11 @@ public class PatientData {
             return this;
         }
 
+        public Builder withid(Integer id){
+            this.id = id;
+            return this;
+        }
+
         public  PatientData build(){
             PatientData patientData = new PatientData();
             patientData.setName(this.name);
@@ -231,7 +239,9 @@ public class PatientData {
             patientData.setFatherName(this.fatherName);
             patientData.setMotherName(this.motherName);
             patientData.setAddress(this.patientAddress);
-
+            if(this.id != null && this.id !=0) {
+                patientData.setId(this.id);
+            }
             return patientData;
         }
 

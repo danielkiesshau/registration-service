@@ -1,11 +1,15 @@
 package com.br.healthCare.registrationService.domain.commands;
 
+import com.br.healthCare.registrationService.infra.data.MedicalHistoryData;
 import com.br.healthCare.registrationService.infra.data.PatientData;
 import com.br.healthCare.registrationService.infra.data.pacientData.PatientAddressData;
 import com.br.healthCare.registrationService.domain.controllers.contracts.GetPatientRequest;
 import com.br.healthCare.registrationService.infra.PatientDatabase.PatientAddressDao;
 import com.br.healthCare.registrationService.infra.PatientDatabase.PatientDao;
+import com.br.healthCare.registrationService.requests.MedicalHistoryRequest;
 import com.br.healthCare.registrationService.requests.PatientRequest;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +24,8 @@ public class PatientCommand {
     private PatientDao patientDao;
     @Autowired
     private PatientAddressDao patientAddressDao;
+    @Autowired
+    private MedicalHistoryCommand medicalHistoryCommand;
 
     private PatientData patientData;
 
@@ -63,7 +69,7 @@ public class PatientCommand {
         this.savePatient(patientData);
     }
 
-    public void removePatient(Integer id) {
+    public void removePatient(Integer id) throws Exception{
         PatientData patient = new PatientData();
         patient.setId(id);
 
@@ -158,18 +164,18 @@ public class PatientCommand {
 
     private PatientRequest convertFromPatientData(PatientData data){
        return  PatientRequest.builder()
-                .withName(patientData.getName())
-                .withGenre(patientData.getGenre())
-                .withAge(patientData.getAge())
-                .withCpf(patientData.getCpf())
-                .withEmail(patientData.getEmail())
-                .withWeight(patientData.getWeight())
-                .withInsuranceNumber(patientData.getHealthInsuranceNumber())
-                .withPhoneNumber(patientData.getPhoneNumber())
-                .withAddress(patientData.getAddress())
-                .withFatherName(patientData.getFatherName())
-                .withMotherName(patientData.getMotherName())
-                .withPatientId(patientData.getId())
+                .withName(data.getName())
+                .withGenre(data.getGenre())
+                .withAge(data.getAge())
+                .withCpf(data.getCpf())
+                .withEmail(data.getEmail())
+                .withWeight(data.getWeight())
+                .withInsuranceNumber(data.getHealthInsuranceNumber())
+                .withPhoneNumber(data.getPhoneNumber())
+                .withAddress(data.getAddress())
+                .withFatherName(data.getFatherName())
+                .withMotherName(data.getMotherName())
+                .withPatientId(data.getId())
                 .build();
     }
 
@@ -186,6 +192,7 @@ public class PatientCommand {
                 .withAddress(request.getAddress())
                 .withFatherName(request.getFatherName())
                 .withMotherName(request.getMotherName())
+                .withid(request.getPatientId())
                 .build();
     }
 }

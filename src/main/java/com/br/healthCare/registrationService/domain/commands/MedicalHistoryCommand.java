@@ -39,6 +39,11 @@ public class MedicalHistoryCommand {
 
 
     public MedicalHistoryRequest getMedicalHistory(Integer patientId) {
+        MedicalHistoryData medicalHistoryData = medicalHistoryDao.findByPatientId(patientId);
+        if(medicalHistoryData == null){
+          return null;
+        }
+
         return convertMedicalHistoryFromData(medicalHistoryDao.findByPatientId(patientId), continuousUseMedicationDAO.findByPatientId(patientId),
                 surgicalProceduresDAO.findByPatientId(patientId), relativesDiseasesDAO.findByPatientId(patientId));
     }
@@ -46,7 +51,7 @@ public class MedicalHistoryCommand {
 
     public void createMedicalHistory(MedicalHistoryRequest request) throws Exception {
         List<SurgicalProceduresData> surgicalProcedureData = convertSurgicalProceduresFromRequest(request);
-        List<ContinuousUseMedicationsData> continuousUseMedicationData = converContinuousMedicationFromRequest(request);
+        List<ContinuousUseMedicationsData> continuousUseMedicationData = convertContinuousMedicationFromRequest(request);
         List<RelativesDiseasesData> relativesDiseaseData = convertRelativesDiseasesFromRequest(request);
         MedicalHistoryData medicalHistoryData = convertMedicalHistoryFromRequest(request);
         this.validatePatientId(request.getPatientId());
@@ -105,15 +110,28 @@ public class MedicalHistoryCommand {
         this.createMedicalHistory(request);
     }
 
-    private void deleteMedicalHistory(MedicalHistoryData medicalHistoryData) {
-        medicalHistoryDao.setMedicalHistory(medicalHistoryData);
-        medicalHistoryDao.deleteData();
-    }
     public void removeMedicalHistory(Integer id)  {
-        MedicalHistoryData medicalHistoryData = new MedicalHistoryData();
-        medicalHistoryData.setId(id);
+        MedicalHistoryData medicalHistoryData = medicalHistoryDao.findByPatientId(id);
+        List<SurgicalProceduresData> surgicalProceduresData = surgicalProceduresDAO.findByPatientId(id);
+        List<RelativesDiseasesData> relativesDiseasesData = relativesDiseasesDAO.findByPatientId(id);
+        List<ContinuousUseMedicationsData> continuousUseMedicationsData = continuousUseMedicationDAO.findByPatientId(id);
 
-       this.deleteMedicalHistory(medicalHistoryData);
+        medicalHistoryDao.setMedicalHistory(medicalHistoryData);
+        medicalHistoryDao.deleteByPatientId();
+        for (SurgicalProceduresData procedure : surgicalProceduresData) {
+            surgicalProceduresDAO.setSurgicalProcedures(procedure);
+            surgicalProceduresDAO.deleteData();
+        }
+
+        for (RelativesDiseasesData disease : relativesDiseasesData) {
+            relativesDiseasesDAO.setRelativesDiseases(disease);
+            relativesDiseasesDAO.deleteData();
+        }
+
+        for (ContinuousUseMedicationsData medication : continuousUseMedicationsData) {
+            continuousUseMedicationDAO.setContinuousUseMedications(medication);
+            continuousUseMedicationDAO.deleteData();
+        }
     }
 
     private MedicalHistoryData convertMedicalHistoryFromRequest(MedicalHistoryRequest request) {
@@ -125,10 +143,11 @@ public class MedicalHistoryCommand {
                 .withPatientId(request.getPatientId())
                 .isPregnant(request.isPregnant())
                 .isSmoker(request.isSmoker())
+                .withId(request.getId())
                 .build();
     }
 
-    private List<ContinuousUseMedicationsData> converContinuousMedicationFromRequest(MedicalHistoryRequest request) {
+    private List<ContinuousUseMedicationsData> convertContinuousMedicationFromRequest(MedicalHistoryRequest request) {
         List<ContinuousUseMedicationsData> responseData = new ArrayList<>();
         for (ContinuousUseMedications medication : request.getContinuousUseMedications()) {
             responseData.add(ContinuousUseMedicationsData.builder()
@@ -137,6 +156,7 @@ public class MedicalHistoryCommand {
                     .withMedicationDoseMg(medication.getMedicationDoseMg())
                     .withUSageFrequency(medication.getUsageFrequency())
                     .withUseTime(medication.getUseTime())
+                     .withId(medication.getId())
                     .build());
         }
         return responseData;
@@ -149,6 +169,7 @@ public class MedicalHistoryCommand {
                     .withPatientId(request.getPatientId())
                     .withDiseaseName(disease.getDiseaseName())
                     .withKinshipDegree(disease.getKinshipDegree())
+                    .withId(disease.getId())
                     .build());
         }
         return responseData;
@@ -162,6 +183,7 @@ public class MedicalHistoryCommand {
                     .withProcedureName(procedure.getProcedureName())
                     .withComplications(procedure.getComplications())
                     .withDate(procedure.getDate())
+                    .withId(procedure.getId())
                     .build());
         }
         return responseData;
@@ -180,6 +202,7 @@ public class MedicalHistoryCommand {
                 .withRelativesDiseases(convertRelativesDiseasesFromData(relativesDiseases))
                 .withSurgicalProcedures(convertSurgicalProceduresFromData(procedures))
                 .isSmoker(data.isSmoker())
+                .withId(data.getId())
                 .build();
     }
 
@@ -191,6 +214,7 @@ public class MedicalHistoryCommand {
                     .withMedicationDoseMg(medication.getMedicationDoseMg())
                     .withUSageFrequency(medication.getUsageFrequency())
                     .withUseTime(medication.getUseTime())
+                    .withId(medication.getId())
                     .build());
         }
         return responseData;
@@ -202,6 +226,7 @@ public class MedicalHistoryCommand {
             responseData.add(RelativesDiseases.builder()
                     .withDiseaseName(disease.getDiseaseName())
                     .withKinshipDegree(disease.getKinshipDegree())
+                    .withId(disease.getId())
                     .build());
         }
         return responseData;
@@ -214,6 +239,7 @@ public class MedicalHistoryCommand {
                     .withProcedureName(procedure.getProcedureName())
                     .withComplications(procedure.getComplications())
                     .withDate(procedure.getDate())
+                    .withId(procedure.getId())
                     .build());
         }
         return responseData;

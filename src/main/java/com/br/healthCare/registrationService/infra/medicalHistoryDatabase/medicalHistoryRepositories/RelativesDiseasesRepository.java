@@ -8,6 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface RelativesDiseasesRepository extends CrudRepository<RelativesDiseasesData, Integer> {
-    @Query(value = "SELECT * FROM continuous_use_medications WHERE patient_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM relatives_diseases_data WHERE patient_data_id = ?1", nativeQuery = true)
     List<RelativesDiseasesData> findByPatientId(int id);
 }

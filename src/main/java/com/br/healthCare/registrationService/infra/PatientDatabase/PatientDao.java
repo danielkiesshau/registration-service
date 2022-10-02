@@ -6,6 +6,8 @@ import com.br.healthCare.registrationService.infra.PatientDatabase.patientReposi
 import com.br.healthCare.registrationService.infra.PatientDatabase.patientRepositories.PatientAddressRepository;
 import com.br.healthCare.registrationService.infra.RegistrationDAO;
 import com.br.healthCare.registrationService.infra.helpers.IterableHelper;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

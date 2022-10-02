@@ -1,5 +1,9 @@
 package com.br.healthCare.registrationService.infra.data;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.List;
 @Entity
@@ -8,17 +12,16 @@ public class MedicalHistoryData {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
     @Column(name = "id", unique = true, nullable = false)    private Integer id;
-    @ElementCollection
-    private List<String> existingDiseases;
-    @ElementCollection
-    private List<String> limitations;
+    private String existingDiseases;
+    private String limitations;
     private String bloodType;
     private String allergies;
     private boolean isSmoker;
     private boolean isPregnant;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE,orphanRemoval =true )
     @JoinColumn(name = "patient_data_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private PatientData patient;
 
     public Integer getId() {
@@ -38,19 +41,19 @@ public class MedicalHistoryData {
         this.patient = patientId;
     }
 
-    public List<String> getExistingDiseases() {
+    public String getExistingDiseases() {
         return existingDiseases;
     }
 
-    private void setExistingDiseases(List<String> existingDiseases) {
+    private void setExistingDiseases(String existingDiseases) {
         this.existingDiseases = existingDiseases;
     }
 
-    public List<String> getLimitations() {
+    public String getLimitations() {
         return limitations;
     }
 
-    private void setLimitations(List<String> limitations) {
+    private void setLimitations(String limitations) {
         this.limitations = limitations;
     }
 
@@ -92,20 +95,21 @@ public class MedicalHistoryData {
     }
 
     public static class Builder{
-        public List<String> existingDiseases;
-        public List<String> limitations;
+        public String existingDiseases;
+        public String limitations;
         public String bloodType;
         public String allergies;
         public boolean isSmoker;
         public boolean isPregnant;
         public Integer patientId;
+        public Integer id;
 
-        public Builder withExistingDiseases(List<String> existingDiseases){
+        public Builder withExistingDiseases(String existingDiseases){
             this.existingDiseases = existingDiseases;
             return this;
         }
 
-        public Builder withLimitations(List<String> limitations){
+        public Builder withLimitations(String limitations){
             this.limitations = limitations;
             return this;
         }
@@ -135,6 +139,11 @@ public class MedicalHistoryData {
             return this;
         }
 
+        public Builder withId(Integer id){
+            this.id = id;
+            return this;
+        }
+
         public MedicalHistoryData build(){
             MedicalHistoryData response = new MedicalHistoryData();
             response.setExistingDiseases(this.existingDiseases);
@@ -146,6 +155,9 @@ public class MedicalHistoryData {
             PatientData patientData = new PatientData();
             patientData.setId(this.patientId);
             response.setPatient(patientData);
+            if(this.id != null && this.id !=0) {
+                response.setId(this.id);
+            }
 
             return response;
         }

@@ -1,6 +1,8 @@
 package com.br.healthCare.registrationService.infra.data.medicalHistoryData;
 
 import com.br.healthCare.registrationService.infra.data.PatientData;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -15,8 +17,9 @@ public class RelativesDiseasesData {
     private String kinshipDegree;
     private String diseaseName;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "patient_data_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private PatientData patient;
 
 
@@ -61,6 +64,7 @@ public class RelativesDiseasesData {
         private String kinshipDegree;
         private String diseaseName;
         public Integer patientId;
+        private Integer id;
 
 
         public Builder withKinshipDegree(String kinshipDegree){
@@ -78,6 +82,10 @@ public class RelativesDiseasesData {
             return this;
         }
 
+        public Builder withId(Integer id){
+            this.id = id;
+            return this;
+        }
 
         public RelativesDiseasesData build(){
             RelativesDiseasesData response = new RelativesDiseasesData();
@@ -86,6 +94,9 @@ public class RelativesDiseasesData {
             PatientData patientData = new PatientData();
             patientData.setId(this.patientId);
             response.setPatient(patientData);
+            if(this.id != null && this.id !=0) {
+                response.setId(this.id);
+            }
 
             return response;
         }

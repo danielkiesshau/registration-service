@@ -7,8 +7,8 @@ import com.br.healthCare.registrationService.requests.requestComplements.Surgica
 import java.util.List;
 
 public class MedicalHistoryRequest {
-    private List<String> existingDiseases;
-    private List<String> limitations;
+    private String existingDiseases;
+    private String limitations;
     private String bloodType;
     private List<SurgicalProcedures> surgicalProcedures;
     private List<ContinuousUseMedications> continuousUseMedications;
@@ -17,20 +17,21 @@ public class MedicalHistoryRequest {
     private boolean isPregnant;
     private List<RelativesDiseases> relativesDiseases;
     private Integer patientId;
+    private Integer id;
 
-    public List<String> getExistingDiseases() {
+    public String getExistingDiseases() {
         return existingDiseases;
     }
 
-    private void setExistingDiseases(List<String> existingDiseases) {
+    private void setExistingDiseases(String existingDiseases) {
         this.existingDiseases = existingDiseases;
     }
 
-    public List<String> getLimitations() {
+    public String getLimitations() {
         return limitations;
     }
 
-    private void setLimitations(List<String> limitations) {
+    private void setLimitations(String limitations) {
         this.limitations = limitations;
     }
 
@@ -98,28 +99,37 @@ public class MedicalHistoryRequest {
         this.patientId = patientId;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public static Builder builder(){
         return new Builder();
     }
 
     public static class Builder{
-        public List<String> existingDiseases;
-        public List<String> limitations;
-        public String bloodType;
-        public List<SurgicalProcedures> surgicalProcedures;
-        public List<ContinuousUseMedications> continuousUseMedications;
-        public String allergies;
-        public boolean isSmoker;
-        public boolean isPregnant;
-        public List<RelativesDiseases> relativesDiseases;
-        public Integer patientId;
+        private String existingDiseases;
+        private String limitations;
+        private String bloodType;
+        private List<SurgicalProcedures> surgicalProcedures;
+        private List<ContinuousUseMedications> continuousUseMedications;
+        private String allergies;
+        private boolean isSmoker;
+        private boolean isPregnant;
+        private List<RelativesDiseases> relativesDiseases;
+        private Integer patientId;
+        private Integer id;
 
-        public Builder withExistingDiseases(List<String> existingDiseases){
+        public Builder withExistingDiseases(String existingDiseases){
             this.existingDiseases = existingDiseases;
             return this;
         }
 
-        public Builder withLimitations(List<String> limitations){
+        public Builder withLimitations(String limitations){
             this.limitations = limitations;
             return this;
         }
@@ -164,6 +174,11 @@ public class MedicalHistoryRequest {
             return this;
         }
 
+        public Builder withId(Integer id){
+            this.id = id;
+            return this;
+        }
+
         public MedicalHistoryRequest build(){
             MedicalHistoryRequest response = new MedicalHistoryRequest();
             response.setExistingDiseases(this.existingDiseases);
@@ -176,7 +191,7 @@ public class MedicalHistoryRequest {
             response.setContinuousUseMedications(this.continuousUseMedications);
             response.setSurgicalProcedures(this.surgicalProcedures);
             response.setPatientId(this.patientId);
-
+            response.setId(this.id);
             return response;
         }
 

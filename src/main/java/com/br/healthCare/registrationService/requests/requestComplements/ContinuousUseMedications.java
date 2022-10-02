@@ -5,6 +5,8 @@ public class ContinuousUseMedications {
     private String useTime;
     private String usageFrequency;
     private Double medicationDoseMg;
+    private Integer id;
+
 
     public String getMedicationName() {
         return medicationName;
@@ -38,6 +40,14 @@ public class ContinuousUseMedications {
         this.medicationDoseMg = medicationDoseMg;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public static Builder builder(){
         return new Builder();
     }
@@ -47,6 +57,7 @@ public class ContinuousUseMedications {
         private String useTime;
         private String usageFrequency;
         private Double medicationDoseMg;
+        private Integer id;
 
         public Builder withMedicationName(String medicationName){
             this.medicationName = medicationName;
@@ -68,12 +79,18 @@ public class ContinuousUseMedications {
             return this;
         }
 
-            public ContinuousUseMedications build(){
+        public Builder withId(Integer id){
+            this.id = id;
+            return this;
+        }
+
+        public ContinuousUseMedications build() {
             ContinuousUseMedications response = new ContinuousUseMedications();
             response.setMedicationName(this.medicationName);
             response.setMedicationDoseMg(this.medicationDoseMg);
             response.setUseTime(this.useTime);
             response.setUsageFrequency(this.usageFrequency);
+            response.setId(this.id);
 
             return response;
         }

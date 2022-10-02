@@ -7,6 +7,7 @@ public class SurgicalProcedures {
     private String procedureName;
     private String complications;
     private Date date;
+    private Integer id;
 
     public String getProcedureName() {
         return procedureName;
@@ -32,6 +33,14 @@ public class SurgicalProcedures {
         this.date = date;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public  static Builder builder(){
         return new Builder();
     }
@@ -40,6 +49,7 @@ public class SurgicalProcedures {
         private String procedureName;
         private String complications;
         private Date date;
+        private Integer id;
 
         public Builder withProcedureName(String procedureName){
             this.procedureName = procedureName;
@@ -56,11 +66,17 @@ public class SurgicalProcedures {
             return this;
         }
 
+        public Builder withId(Integer id){
+            this.id = id;
+            return this;
+        }
+
         public SurgicalProcedures build(){
             SurgicalProcedures response = new SurgicalProcedures();
             response.setProcedureName(this.procedureName);
             response.setComplications(this.complications);
             response.setDate(this.date);
+            response.setId(this.id);
 
             return response;
         }
