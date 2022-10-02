@@ -31,6 +31,7 @@ It will show all CRUD endpoints for Patient and MedicalHistory
 2. Repository - Database queries
 3. Controller - Request/Response handling
 4. Command - Business Rules
+5. Builder - helps to build other classes (i.e: PatientData -> Patient, MedicalHistoryData -> MedicalHistory...)
 5. SOLID
 6. Scaffold inspired by Clean Architecture
 
@@ -52,7 +53,7 @@ mysql -u root -p     ## execute mysql CLI do be able to run SQL Queries
 
 #### --- MySQL commands ---
 ```
-USE DATABASE db_registration_service;
+USE db_registration_service;
 ```
 ```
 SHOW TABLES;
