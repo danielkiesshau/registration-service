@@ -13,7 +13,8 @@ public class PatientData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @Basic(optional = false)
+    @Column(name = "id", unique = true, nullable = false)    private Integer id;
     @NotNull
     private String name;
     @NotNull
@@ -38,7 +39,7 @@ public class PatientData {
     private String motherName;
 
     @OneToOne
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "address_data_id")
     @NotNull
     private PatientAddressData address;
 

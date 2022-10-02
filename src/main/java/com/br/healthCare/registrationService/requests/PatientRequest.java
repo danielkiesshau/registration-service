@@ -1,7 +1,6 @@
 package com.br.healthCare.registrationService.requests;
 
 
-import com.br.healthCare.registrationService.infra.data.PatientData;
 import com.br.healthCare.registrationService.infra.data.pacientData.PatientAddressData;
 import com.br.healthCare.registrationService.requests.requestComplements.PatientAddress;
 
@@ -18,6 +17,7 @@ public class PatientRequest {
     private String fatherName;
     private String motherName;
     private PatientAddress address;
+    private int patientId;
 
     public String getName() {
         return name;
@@ -107,6 +107,14 @@ public class PatientRequest {
         this.address = address;
     }
 
+    public int getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(int patientId) {
+        this.patientId = patientId;
+    }
+
     public static Builder builder(){
         return new Builder();
     }
@@ -123,6 +131,7 @@ public class PatientRequest {
         private String fatherName;
         private String motherName;
         private PatientAddress patientAddress;
+        private int patientId;
 
         public Builder withName(String name){
             this.name=name;
@@ -185,6 +194,11 @@ public class PatientRequest {
             return this;
         }
 
+        public Builder withPatientId(int patientId){
+            this.patientId = patientId;
+            return this;
+        }
+
         public  PatientRequest build(){
             PatientRequest patientRequest = new PatientRequest();
             patientRequest.setName(this.name);
@@ -198,6 +212,7 @@ public class PatientRequest {
             patientRequest.setFatherName(this.fatherName);
             patientRequest.setMotherName(this.motherName);
             patientRequest.setAddress(this.patientAddress);
+            patientRequest.setPatientId(this.patientId);
 
             return patientRequest;
         }

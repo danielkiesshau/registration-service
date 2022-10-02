@@ -1,8 +1,6 @@
 package com.br.healthCare.registrationService.infra.data.medicalHistoryData;
 
-import com.br.healthCare.registrationService.infra.data.MedicalHistoryData;
 import com.br.healthCare.registrationService.infra.data.PatientData;
-import com.br.healthCare.registrationService.requests.requestComplements.RelativesDiseases;
 
 import javax.persistence.*;
 
@@ -11,13 +9,14 @@ public class RelativesDiseasesData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Basic(optional = false)
+    @Column(name = "id", unique = true, nullable = false)
     private Integer id;
     private String kinshipDegree;
     private String diseaseName;
 
-    @OneToOne
-    @JoinColumn(name="patient.patient_id",  foreignKey = @ForeignKey(name = "patient.patient_id"))
-    @MapsId
+    @ManyToOne
+    @JoinColumn(name = "patient_data_id")
     private PatientData patient;
 
 

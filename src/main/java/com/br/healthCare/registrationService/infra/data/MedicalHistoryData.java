@@ -1,20 +1,13 @@
 package com.br.healthCare.registrationService.infra.data;
 
-import com.br.healthCare.registrationService.infra.data.medicalHistoryData.ContinuousUseMedicationsData;
-import com.br.healthCare.registrationService.infra.data.medicalHistoryData.RelativesDiseasesData;
-import com.br.healthCare.registrationService.infra.data.medicalHistoryData.SurgicalProceduresData;
-import com.br.healthCare.registrationService.requests.MedicalHistoryRequest;
-import com.br.healthCare.registrationService.requests.requestComplements.ContinuousUseMedications;
-import com.br.healthCare.registrationService.requests.requestComplements.RelativesDiseases;
-import com.br.healthCare.registrationService.requests.requestComplements.SurgicalProcedures;
-
 import javax.persistence.*;
 import java.util.List;
 @Entity
 public class MedicalHistoryData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @Basic(optional = false)
+    @Column(name = "id", unique = true, nullable = false)    private Integer id;
     @ElementCollection
     private List<String> existingDiseases;
     @ElementCollection
@@ -25,8 +18,7 @@ public class MedicalHistoryData {
     private boolean isPregnant;
 
     @OneToOne
-    @JoinColumn(name="patient.patient_id",  foreignKey = @ForeignKey(name = "patient.patient_id"))
-    @MapsId
+    @JoinColumn(name = "patient_data_id")
     private PatientData patient;
 
     public Integer getId() {

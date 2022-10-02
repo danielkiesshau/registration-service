@@ -1,8 +1,6 @@
 package com.br.healthCare.registrationService.infra.data.medicalHistoryData;
 
-import com.br.healthCare.registrationService.infra.data.MedicalHistoryData;
 import com.br.healthCare.registrationService.infra.data.PatientData;
-import com.br.healthCare.registrationService.requests.requestComplements.ContinuousUseMedications;
 
 import javax.persistence.*;
 
@@ -10,15 +8,16 @@ import javax.persistence.*;
 public class ContinuousUseMedicationsData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Basic(optional = false)
+    @Column(name = "id", unique = true, nullable = false)
     private Integer id;
     private String medicationName;
     private String useTime;
     private String usageFrequency;
     private Double medicationDoseMg;
 
-    @OneToOne
-    @JoinColumn(name="patient.patient_id",  foreignKey = @ForeignKey(name = "patient.patient_id"))
-    @MapsId
+    @ManyToOne
+    @JoinColumn(name = "patient_data_id")
     private PatientData patient;
 
 

@@ -169,6 +169,7 @@ public class PatientCommand {
                 .withAddress(patientData.getAddress())
                 .withFatherName(patientData.getFatherName())
                 .withMotherName(patientData.getMotherName())
+                .withPatientId(patientData.getId())
                 .build();
     }
 

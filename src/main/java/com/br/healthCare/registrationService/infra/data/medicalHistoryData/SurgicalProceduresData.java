@@ -1,8 +1,6 @@
 package com.br.healthCare.registrationService.infra.data.medicalHistoryData;
 
-import com.br.healthCare.registrationService.infra.data.MedicalHistoryData;
 import com.br.healthCare.registrationService.infra.data.PatientData;
-import com.br.healthCare.registrationService.requests.requestComplements.SurgicalProcedures;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,14 +9,15 @@ import java.util.Date;
 public class SurgicalProceduresData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Basic(optional = false)
+    @Column(name = "id", unique = true, nullable = false)
     private Integer id;
     private String procedureName;
     private String complications;
     private Date date;
 
-    @OneToOne
-    @JoinColumn(name="patient.patient_id",  foreignKey = @ForeignKey(name = "patient.patient_id"))
-    @MapsId
+    @ManyToOne
+    @JoinColumn(name = "patient_data_id")
     private PatientData patient;
 
     public Integer getId() {
