@@ -21,7 +21,7 @@ public class RelativesDiseases {
         this.diseaseName = diseaseName;
     }
 
-    public Builder builder(){
+    public static Builder builder(){
         return new Builder();
     }
 

@@ -36,8 +36,8 @@ public class ContinuousUseMedicationDAO implements RegistrationDAO {
         continuousUseMedicationRepository.save(continuousUseMedicationsData);
     }
 
-    public List<ContinuousUseMedicationsData> findByMedicalHistoryId(Integer medicalHistoryId) {
-        List<ContinuousUseMedicationsData> result = continuousUseMedicationRepository.findByMedicalHistoryId(medicalHistoryId);
+    public List<ContinuousUseMedicationsData> findByPatientId(Integer patientId) {
+        List<ContinuousUseMedicationsData> result = continuousUseMedicationRepository.findByPatientId(patientId);
         return result;
     }
 

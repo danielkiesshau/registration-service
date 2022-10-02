@@ -3,6 +3,10 @@ package com.br.healthCare.registrationService.infra.data;
 import com.br.healthCare.registrationService.infra.data.medicalHistoryData.ContinuousUseMedicationsData;
 import com.br.healthCare.registrationService.infra.data.medicalHistoryData.RelativesDiseasesData;
 import com.br.healthCare.registrationService.infra.data.medicalHistoryData.SurgicalProceduresData;
+import com.br.healthCare.registrationService.requests.MedicalHistoryRequest;
+import com.br.healthCare.registrationService.requests.requestComplements.ContinuousUseMedications;
+import com.br.healthCare.registrationService.requests.requestComplements.RelativesDiseases;
+import com.br.healthCare.registrationService.requests.requestComplements.SurgicalProcedures;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,21 +14,19 @@ import java.util.List;
 public class MedicalHistoryData {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-   private Integer id;
+    private Integer id;
     @ElementCollection
     private List<String> existingDiseases;
     @ElementCollection
     private List<String> limitations;
     private String bloodType;
-    private List<SurgicalProceduresData> surgicalProcedureData;
-    private List<ContinuousUseMedicationsData> continuousUseMedicationData;
     private String allergies;
     private boolean isSmoker;
     private boolean isPregnant;
-    private List<RelativesDiseasesData> relativesDiseaseData;
 
     @OneToOne
-    @JoinColumn(name="patient_id",  foreignKey = @ForeignKey(name = "patient_id"))
+    @JoinColumn(name="patient.patient_id",  foreignKey = @ForeignKey(name = "patient.patient_id"))
+    @MapsId
     private PatientData patient;
 
     public Integer getId() {
@@ -40,15 +42,15 @@ public class MedicalHistoryData {
         return patient;
     }
 
-    public void setPatient(PatientData patientId) {
-        this.patient = patient;
+    private void setPatient(PatientData patientId) {
+        this.patient = patientId;
     }
 
     public List<String> getExistingDiseases() {
         return existingDiseases;
     }
 
-    public void setExistingDiseases(List<String> existingDiseases) {
+    private void setExistingDiseases(List<String> existingDiseases) {
         this.existingDiseases = existingDiseases;
     }
 
@@ -56,7 +58,7 @@ public class MedicalHistoryData {
         return limitations;
     }
 
-    public void setLimitations(List<String> limitations) {
+    private void setLimitations(List<String> limitations) {
         this.limitations = limitations;
     }
 
@@ -64,35 +66,15 @@ public class MedicalHistoryData {
         return bloodType;
     }
 
-    public void setBloodType(String bloodType) {
+    private void setBloodType(String bloodType) {
         this.bloodType = bloodType;
-    }
-
-    @OneToMany
-    @JoinColumn(name="surgicalProcedures_id", nullable = false)
-    public List<SurgicalProceduresData> getSurgicalProcedures() {
-        return surgicalProcedureData;
-    }
-
-    public void setSurgicalProcedures(List<SurgicalProceduresData> surgicalProcedureData) {
-        this.surgicalProcedureData = surgicalProcedureData;
-    }
-
-    @OneToMany
-    @JoinColumn(name="continuousUseMedications_id", nullable = false)
-    public List<ContinuousUseMedicationsData> getContinuousUseMedications() {
-        return continuousUseMedicationData;
-    }
-
-    public void setContinuousUseMedications(List<ContinuousUseMedicationsData> continuousUseMedicationData) {
-        this.continuousUseMedicationData = continuousUseMedicationData;
     }
 
     public String getAllergies() {
         return allergies;
     }
 
-    public void setAllergies(String allergies) {
+    private void setAllergies(String allergies) {
         this.allergies = allergies;
     }
 
@@ -100,7 +82,7 @@ public class MedicalHistoryData {
         return isSmoker;
     }
 
-    public void setSmoker(boolean smoker) {
+    private void setSmoker(boolean smoker) {
         isSmoker = smoker;
     }
 
@@ -108,18 +90,72 @@ public class MedicalHistoryData {
         return isPregnant;
     }
 
-    public void setPregnant(boolean pregnant) {
+    private void setPregnant(boolean pregnant) {
         isPregnant = pregnant;
     }
 
-    @OneToMany
-    @JoinColumn(name="relativesDiseases_id", nullable = false)
-    public List<RelativesDiseasesData> getRelativesDiseases() {
-        return relativesDiseaseData;
+
+    public static Builder builder(){
+        return new Builder();
     }
 
+    public static class Builder{
+        public List<String> existingDiseases;
+        public List<String> limitations;
+        public String bloodType;
+        public String allergies;
+        public boolean isSmoker;
+        public boolean isPregnant;
+        public Integer patientId;
 
-    public void setRelativesDiseases(List<RelativesDiseasesData> relativesDiseaseData) {
-        this.relativesDiseaseData = relativesDiseaseData;
+        public Builder withExistingDiseases(List<String> existingDiseases){
+            this.existingDiseases = existingDiseases;
+            return this;
+        }
+
+        public Builder withLimitations(List<String> limitations){
+            this.limitations = limitations;
+            return this;
+        }
+
+        public Builder withBloodType(String bloodType){
+            this.bloodType = bloodType;
+            return this;
+        }
+
+        public Builder withAllergies(String allergies){
+            this.allergies = allergies;
+            return this;
+        }
+
+        public Builder isSmoker(Boolean isSmoker){
+            this.isSmoker = isSmoker;
+            return this;
+        }
+
+        public Builder isPregnant(Boolean isPregnant){
+            this.isPregnant = isPregnant;
+            return this;
+        }
+
+        public Builder withPatientId(Integer patientId){
+            this.patientId = patientId;
+            return this;
+        }
+
+        public MedicalHistoryData build(){
+            MedicalHistoryData response = new MedicalHistoryData();
+            response.setExistingDiseases(this.existingDiseases);
+            response.setAllergies(this.allergies);
+            response.setLimitations(this.limitations);
+            response.setPregnant(this.isPregnant);
+            response.setSmoker(this.isSmoker);
+            response.setBloodType(this.bloodType);
+            PatientData patientData = new PatientData();
+            patientData.setId(this.patientId);
+            response.setPatient(patientData);
+
+            return response;
+        }
     }
 }

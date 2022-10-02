@@ -32,7 +32,7 @@ public class SurgicalProcedures {
         this.date = date;
     }
 
-    public Builder builder(){
+    public  static Builder builder(){
         return new Builder();
     }
 

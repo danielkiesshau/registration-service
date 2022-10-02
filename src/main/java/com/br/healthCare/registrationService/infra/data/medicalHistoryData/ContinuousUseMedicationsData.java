@@ -1,5 +1,7 @@
 package com.br.healthCare.registrationService.infra.data.medicalHistoryData;
 
+import com.br.healthCare.registrationService.infra.data.MedicalHistoryData;
+import com.br.healthCare.registrationService.infra.data.PatientData;
 import com.br.healthCare.registrationService.requests.requestComplements.ContinuousUseMedications;
 
 import javax.persistence.*;
@@ -13,6 +15,11 @@ public class ContinuousUseMedicationsData {
     private String useTime;
     private String usageFrequency;
     private Double medicationDoseMg;
+
+    @OneToOne
+    @JoinColumn(name="patient.patient_id",  foreignKey = @ForeignKey(name = "patient.patient_id"))
+    @MapsId
+    private PatientData patient;
 
 
     public Integer getId() {
@@ -60,7 +67,15 @@ public class ContinuousUseMedicationsData {
         return this;
     }
 
-    public Builder builder(){
+    public PatientData getPatient() {
+        return patient;
+    }
+
+    public void setPatient(PatientData patient) {
+        this.patient = patient;
+    }
+
+    public static Builder builder(){
         return new Builder();
     }
 
@@ -69,6 +84,7 @@ public class ContinuousUseMedicationsData {
         private String useTime;
         private String usageFrequency;
         private Double medicationDoseMg;
+        public Integer patientId;
 
         public Builder withMedicationName(String medicationName){
             this.medicationName = medicationName;
@@ -90,12 +106,21 @@ public class ContinuousUseMedicationsData {
             return this;
         }
 
+        public Builder withPatientId(Integer patientId){
+            this.patientId = patientId;
+            return this;
+        }
+
+
         public ContinuousUseMedicationsData build(){
             ContinuousUseMedicationsData response = new ContinuousUseMedicationsData();
             response.setMedicationName(this.medicationName);
             response.setMedicationDoseMg(this.medicationDoseMg);
             response.setUseTime(this.useTime);
             response.setUsageFrequency(this.usageFrequency);
+            PatientData patientData = new PatientData();
+            patientData.setId(this.patientId);
+            response.setPatient(patientData);
 
             return response;
         }

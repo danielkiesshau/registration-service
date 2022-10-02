@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ContinuousUseMedicationRepository extends CrudRepository<ContinuousUseMedicationsData, Integer> {
 
-    @Query(value = "SELECT * FROM continuousUseMedications WHERE medicalHistoryId = ?1", nativeQuery = true)
-    List<ContinuousUseMedicationsData> findByMedicalHistoryId(int id);
+    @Query(value = "SELECT * FROM continuous_use_medications WHERE patient_id = ?1", nativeQuery = true)
+    List<ContinuousUseMedicationsData> findByPatientId(int id);
 
 }

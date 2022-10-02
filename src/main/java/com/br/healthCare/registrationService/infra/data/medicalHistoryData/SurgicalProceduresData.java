@@ -1,5 +1,7 @@
 package com.br.healthCare.registrationService.infra.data.medicalHistoryData;
 
+import com.br.healthCare.registrationService.infra.data.MedicalHistoryData;
+import com.br.healthCare.registrationService.infra.data.PatientData;
 import com.br.healthCare.registrationService.requests.requestComplements.SurgicalProcedures;
 
 import javax.persistence.*;
@@ -14,6 +16,10 @@ public class SurgicalProceduresData {
     private String complications;
     private Date date;
 
+    @OneToOne
+    @JoinColumn(name="patient.patient_id",  foreignKey = @ForeignKey(name = "patient.patient_id"))
+    @MapsId
+    private PatientData patient;
 
     public Integer getId() {
         return id;
@@ -50,7 +56,15 @@ public class SurgicalProceduresData {
         return this;
     }
 
-    public Builder builder(){
+    public PatientData getPatient() {
+        return patient;
+    }
+
+    public void setPatient(PatientData patient) {
+        this.patient = patient;
+    }
+
+    public static Builder builder(){
         return new Builder();
     }
 
@@ -58,6 +72,8 @@ public class SurgicalProceduresData {
         private String procedureName;
         private String complications;
         private Date date;
+        public Integer patientId;
+
 
         public Builder withProcedureName(String procedureName){
             this.procedureName = procedureName;
@@ -74,11 +90,20 @@ public class SurgicalProceduresData {
             return this;
         }
 
+        public Builder withPatientId(Integer patientId){
+            this.patientId = patientId;
+            return this;
+        }
+
+
         public SurgicalProceduresData build(){
             SurgicalProceduresData response = new SurgicalProceduresData();
             response.setProcedureName(this.procedureName);
             response.setComplications(this.complications);
             response.setDate(this.date);
+            PatientData patientData = new PatientData();
+            patientData.setId(this.patientId);
+            response.setPatient(patientData);
 
             return response;
         }
