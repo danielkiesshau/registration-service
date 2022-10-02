@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan("com.br.healthCare.registrationService.domain")
 @ComponentScan("com.br.healthCare.registrationService.infra")
 @EnableJpaRepositories("com.br.healthCare.registrationService.infra")
-@EntityScan("com.br.healthCare.registrationService.data")
+@EntityScan("com.br.healthCare.registrationService.infra.data")
 public class ApplicationRunner {
     public static void main(String[] args) {
         SpringApplication.run(ApplicationRunner.class, args);

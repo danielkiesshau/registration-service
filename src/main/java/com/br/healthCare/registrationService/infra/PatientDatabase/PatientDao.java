@@ -1,10 +1,13 @@
-package com.br.healthCare.registrationService.infra.Patient;
+package com.br.healthCare.registrationService.infra.PatientDatabase;
 
 
-import com.br.healthCare.registrationService.data.Patient;
-import com.br.healthCare.registrationService.infra.PatientAddress.PatientAddressRepository;
+import com.br.healthCare.registrationService.infra.data.PatientData;
+import com.br.healthCare.registrationService.infra.PatientDatabase.patientRepositories.PatientRepository;
+import com.br.healthCare.registrationService.infra.PatientDatabase.patientRepositories.PatientAddressRepository;
 import com.br.healthCare.registrationService.infra.RegistrationDAO;
 import com.br.healthCare.registrationService.infra.helpers.IterableHelper;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +16,11 @@ import java.util.Optional;
 
 
 @Service
-public class PatientDao implements RegistrationDAO<Patient> {
-    private Patient patient;
+public class PatientDao implements RegistrationDAO<PatientData> {
+    private PatientData patient;
 
 
-    public void setPatient(Patient patient) {
+    public void setPatient(PatientData patient) {
         this.patient = patient;
     }
 
@@ -26,25 +29,25 @@ public class PatientDao implements RegistrationDAO<Patient> {
     @Autowired
     private PatientAddressRepository patientAddressRepository;
 
-    public Patient getPatientById(int id) {
+    public PatientData getPatientById(int id) {
         return patientRepository.findById(id);
     }
 
-    public Patient getPatientByName(String name) {
+    public PatientData getPatientByName(String name) {
         return patientRepository.findByName(name);
     }
 
-    public Patient getPatientByEmail(String email) {
+    public PatientData getPatientByEmail(String email) {
         return patientRepository.findByEmail(email);
     }
 
-    public Patient getPatientByCPF(String cpf) {
+    public PatientData getPatientByCPF(String cpf) {
        return patientRepository.findByCPF(cpf);
     }
 
     @Override
-    public List<Patient> getData() {
-        Iterable<Patient> iterable = patientRepository.getAll();
+    public List<PatientData> getData() {
+        Iterable<PatientData> iterable = patientRepository.getAll();
 
         return new IterableHelper().toList(iterable);
     }
@@ -68,20 +71,20 @@ public class PatientDao implements RegistrationDAO<Patient> {
 
 
 
-    public Patient findByName() {
+    public PatientData findByName() {
         return patientRepository.findByName(patient.getName());
     }
 
 
-    public Patient findByEmail() {
+    public PatientData findByEmail() {
         return patientRepository.findByEmail(patient.getEmail());
     }
 
-    public Patient findByCPF() {
+    public PatientData findByCPF() {
         return patientRepository.findByCPF(patient.getCpf());
     }
 
-    public Optional<Patient> findById() {
-        return patientRepository.findById(patient.getId());
+    public Optional<PatientData> findById(Integer patientId) {
+        return patientRepository.findById(patientId);
     }
 }
